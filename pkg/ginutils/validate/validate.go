@@ -1,7 +1,7 @@
 package validate
 
 import (
-	"gin_bbs/pkg/ginutils/utils"
+	"dofun/pkg/ginutils/utils"
 )
 
 type (

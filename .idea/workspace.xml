@@ -1,8 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e3151fba-e9e9-4aad-a916-8aca86b917eb" name="Default Changelist" comment="" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <list default="true" id="e3151fba-e9e9-4aad-a916-8aca86b917eb" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/auth/session.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/auth/token/jwt.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/auth/token/token.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/auth/token/user.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/auth/user.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/cache/cache.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/helpers/active_user.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/helpers/file.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/helpers/jpush.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/helpers/last_actived.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/helpers/mail.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/helpers/sms.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/helpers/translate.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/requests/api/authorization/login.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/requests/api/authorization/social.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/requests/api/image/image.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/requests/api/topic/store.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/requests/api/topic/update.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/requests/api/topic/validator.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/requests/api/user/edit.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/requests/api/user/register.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/requests/api/verification_code/verification_code.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/requests/password/reset.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/requests/user/create.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/requests/user/login.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/requests/user/update.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/requests/validate.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/requests/validators.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/viewmodels/category.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/viewmodels/image.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/viewmodels/link.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/viewmodels/permission.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/viewmodels/reply.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/viewmodels/topic.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/viewmodels/user.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dofun" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/routes/admin.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/routes/api.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/routes/middleware/auth.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/routes/middleware/current_user.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/routes/middleware/guest.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/routes/middleware/limit.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/routes/middleware/token.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/routes/routes.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/routes/web.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/routes/wrapper/get_token.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/routes/wrapper/get_user.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage/logs/dofun.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/config/config.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/ginutils/csrf/csrf.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/ginutils/csrf/csrf.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/ginutils/csrf/middleware.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/ginutils/csrf/middleware.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/ginutils/file/name.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/ginutils/file/name.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/ginutils/file/path.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/ginutils/file/path.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/ginutils/oldvalue/flash.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/ginutils/oldvalue/flash.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/ginutils/pongo2/tag_mix.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/ginutils/pongo2/tag_mix.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/ginutils/pongo2/tag_route.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/ginutils/pongo2/tag_route.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/ginutils/pongo2/tag_static.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/ginutils/pongo2/tag_static.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/ginutils/router/named.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/ginutils/router/named.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/ginutils/socials/weixin/weixin.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/ginutils/socials/weixin/weixin.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/ginutils/validate/flash.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/ginutils/validate/flash.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/ginutils/validate/validate.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/ginutils/validate/validate.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/ginutils/validate/validators.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/ginutils/validate/validators.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/mimetype/internal/matchers/text.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/mimetype/internal/matchers/text.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/mimetype/mime.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/mimetype/mime.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/mimetype/tree.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/mimetype/tree.go" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -16,38 +87,51 @@
     </option>
   </component>
   <component name="GOROOT" path="D:\Go" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1avI4o95BABCozUuZCVMWl9PVrz" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
     <property name="DefaultGoTemplateProperty" value="Go File" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/controllers/api" />
     <property name="settings.editor.selected.configurable" value="go.vgo" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="E:\code-go\github.com\dofun" />
-      <recent name="E:\code-go\github.com\dofun\app\controllers" />
-      <recent name="E:\code-go\github.com\dofun\app" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\code-go\src\github.com\dofun_app_gin\app" />
     </key>
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\code-go\src\github.com\dofun_app_gin\app\controllers\api" />
+      <recent name="E:\code-go\src\github.com\dofun_app_gin\app\controllers\api\authorization" />
+      <recent name="E:\code-go\src\github.com\dofun_app_gin" />
+      <recent name="E:\code-go\src\github.com\dofun_app_gin\app" />
+      <recent name="E:\code-go\github.com\dofun" />
+    </key>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
+    <proxy>https://goproxy.io</proxy>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="461" y="162" key="SettingsEditor" timestamp="1587795789953">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="461" y="162" key="SettingsEditor/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1587795789953" />
+    <state x="567" y="220" width="786" height="600" key="find.popup" timestamp="1587829832777">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="567" y="220" width="786" height="600" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1587829832777" />
   </component>
 </project>

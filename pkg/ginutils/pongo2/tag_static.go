@@ -1,7 +1,7 @@
 package pongo2
 
 import (
-	ginfile "gin_bbs/pkg/ginutils/file"
+	ginfile "dofun/pkg/ginutils/file"
 
 	"github.com/flosch/pongo2"
 )

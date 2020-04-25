@@ -2,8 +2,8 @@ package pongo2
 
 import (
 	"encoding/json"
-	"gin_bbs/pkg/ginutils"
-	ginfile "gin_bbs/pkg/ginutils/file"
+	"dofun/pkg/ginutils"
+	ginfile "dofun/pkg/ginutils/file"
 	"os"
 
 	"github.com/flosch/pongo2"

@@ -2,8 +2,8 @@ package csrf
 
 import (
 	"fmt"
-	"gin_bbs/pkg/ginutils"
-	"gin_bbs/pkg/ginutils/utils"
+	"dofun/pkg/ginutils"
+	"dofun/pkg/ginutils/utils"
 	"html/template"
 
 	"github.com/gin-gonic/gin"

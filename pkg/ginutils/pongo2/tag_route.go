@@ -1,7 +1,7 @@
 package pongo2
 
 import (
-	"gin_bbs/pkg/ginutils/router"
+	"dofun/pkg/ginutils/router"
 
 	"github.com/flosch/pongo2"
 )

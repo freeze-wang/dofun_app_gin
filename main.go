@@ -1,8 +1,11 @@
 package main
 
 import (
+	"dofun/app/controllers/api/authorization"
+	"dofun/config"
+	"dofun/database"
+	"dofun/routes/middleware"
 	"github.com/gin-gonic/gin"
-
 	"github.com/spf13/pflag"
 )
 var (
@@ -11,14 +14,21 @@ var (
 )
 
 func main() {
+	// 初始化配置
+	config.InitConfig("", true)
 	r := setupRouter()
 	r.Run() // 监听并在 0.0.0.0:8080 上启动服务
 }
 
 func setupRouter() *gin.Engine {
 	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) {
-		c.String(200, "pong")
-	})
+	database.InitDB()
+	r.Use(middleware.TokenAuth())
+	{
+		r.GET("/ping", func(c *gin.Context) {
+			c.String(200, "pong")
+		})
+	}
+	r.POST("/login",authorization.Store)
 	return r
 }

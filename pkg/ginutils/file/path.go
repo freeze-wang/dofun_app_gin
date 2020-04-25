@@ -1,7 +1,7 @@
 package file
 
 import (
-	"gin_bbs/pkg/ginutils"
+	"dofun/pkg/ginutils"
 )
 
 // PublicPath 相对于项目 public 静态文件目录的地址
