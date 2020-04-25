@@ -5,8 +5,11 @@ import (
 	"dofun/config"
 	"dofun/database"
 	"dofun/routes/middleware"
+	"github.com/fvbock/endless"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/pflag"
+	"log"
+	"syscall"
 )
 var (
 	// 需要 mock data，注意该操作会覆盖数据库；只在非 release 时生效
@@ -30,5 +33,15 @@ func setupRouter() *gin.Engine {
 		})
 	}
 	r.POST("/login",authorization.Store)
+
+	server := endless.NewServer(config.AppConfig.Addr, r)
+	server.BeforeBegin = func(add string) {
+		log.Printf("Actual pid is %d", syscall.Getpid())
+	}
+
+	err := server.ListenAndServe()
+	if err != nil {
+		log.Printf("Server err: %v", err)
+	}
 	return r
 }

@@ -30,7 +30,10 @@ func GetTokenFromRequest(c *gin.Context) (string, *errno.Errno) {
 func ParseAndGetUser(c *gin.Context, token string) (*userModel.User, *errno.Errno) {
 	claims, err := parseToken(token)
 	if err == errno.TokenExpireError {
-		token, _, _ = refresh(token)
+		var claimsInstance CustomClaims
+		token, claimsInstance, _ = refresh(token)
+		claims = &claimsInstance
+		c.Header("token", token)
 	}
 
 	if err != nil {

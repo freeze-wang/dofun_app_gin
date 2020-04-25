@@ -12,6 +12,7 @@ require (
 	github.com/fatih/color v1.9.0 // indirect
 	github.com/flosch/pongo2 v0.0.0-20190707114632-bbf5a6c351f4
 	github.com/fsnotify/fsnotify v1.4.7
+	github.com/fvbock/endless v0.0.0-20170109170031-447134032cb6
 	github.com/gin-gonic/gin v1.6.2
 	github.com/go-siris/siris v7.4.0+incompatible // indirect
 	github.com/go-sql-driver/mysql v1.4.1

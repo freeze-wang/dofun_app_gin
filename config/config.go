@@ -2,7 +2,6 @@ package config
 
 import (
 	"fmt"
-	dlog "log"
 	"github.com/lexkong/log"
 
 	"github.com/fsnotify/fsnotify"
@@ -59,8 +58,7 @@ func InitConfig(c string, hasLog bool) {
 	DBConfig = newDBConfig()
 	// 初始化邮件配置
 	MailConfig = newMailConfig()
-	//热加载
-	//hotReload()
+
 }
 
 // 监控配置文件变化
@@ -72,55 +70,3 @@ func watchConfig() {
 	})
 }
 
-func hotReload() {
-	//创建一个监控对象
-	watch, err := fsnotify.NewWatcher();
-	if err != nil {
-		dlog.Fatal(err);
-	}
-	defer watch.Close();
-	//添加要监控的对象，文件或文件夹
-	err = watch.Add("app/");
-	if err != nil {
-		dlog.Fatal(err);
-	}
-	//我们另启一个goroutine来处理监控对象的事件
-	go func() {
-		for {
-			select {
-			case ev := <-watch.Events:
-				{
-					//判断事件发生的类型，如下5种
-					// Create 创建
-					// Write 写入
-					// Remove 删除
-					// Rename 重命名
-					// Chmod 修改权限
-					if ev.Op&fsnotify.Create == fsnotify.Create {
-						dlog.Println("创建文件 : ", ev.Name);
-					}
-					if ev.Op&fsnotify.Write == fsnotify.Write {
-						dlog.Println("写入文件 : ", ev.Name);
-					}
-					if ev.Op&fsnotify.Remove == fsnotify.Remove {
-						dlog.Println("删除文件 : ", ev.Name);
-					}
-					if ev.Op&fsnotify.Rename == fsnotify.Rename {
-						dlog.Println("重命名文件 : ", ev.Name);
-					}
-					if ev.Op&fsnotify.Chmod == fsnotify.Chmod {
-						dlog.Println("修改权限 : ", ev.Name);
-					}
-				}
-			case err := <-watch.Errors:
-				{
-					dlog.Println("error : ", err);
-					return;
-				}
-			}
-		}
-	}();
-
-	//循环
-	//select {};
-}

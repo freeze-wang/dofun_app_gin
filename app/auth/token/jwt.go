@@ -5,6 +5,7 @@ import (
 	userModel "dofun/app/models/user"
 	"dofun/config"
 	"dofun/pkg/errno"
+	"log"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -82,6 +83,7 @@ func parseToken(tokenString string) (*CustomClaims, *errno.Errno) {
 // refresh 刷新 token
 func refresh(tokenString string) (string, CustomClaims, *errno.Errno) {
 	token, err := parse(tokenString)
+
 	if err != nil {
 		// 非过期错误
 		if !isExpired(err) {
@@ -97,6 +99,7 @@ func refresh(tokenString string) (string, CustomClaims, *errno.Errno) {
 	}
 
 	claims, ok := token.Claims.(*CustomClaims)
+	log.Printf("claims:%+v",claims)
 	if !ok {
 		return "", CustomClaims{}, errno.TokenError
 	}
@@ -108,7 +111,7 @@ func refresh(tokenString string) (string, CustomClaims, *errno.Errno) {
 	if err != nil {
 		return "", CustomClaims{}, errno.New(errno.TokenError, err)
 	}
-
+	log.Printf("newToken:%+v",newToken)
 	return newToken, newClaims, nil
 }
 
