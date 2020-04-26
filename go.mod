@@ -4,6 +4,7 @@ go 1.14
 
 require (
 	github.com/Pallinder/go-randomdata v1.2.0
+	github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc
 	github.com/bluele/factory-go v0.0.0-20200422145141-be1e58ebe179
 	github.com/buger/jsonparser v0.0.0-20200322175846-f7e751efca13
 	github.com/dchest/captcha v0.0.0-20170622155422-6a29415a8364
@@ -12,7 +13,7 @@ require (
 	github.com/fatih/color v1.9.0 // indirect
 	github.com/flosch/pongo2 v0.0.0-20190707114632-bbf5a6c351f4
 	github.com/fsnotify/fsnotify v1.4.7
-	github.com/fvbock/endless v0.0.0-20170109170031-447134032cb6
+	github.com/fvbock/endless v0.0.0-20170109170031-447134032cb6 // indirect
 	github.com/gin-gonic/gin v1.6.2
 	github.com/go-siris/siris v7.4.0+incompatible // indirect
 	github.com/go-sql-driver/mysql v1.4.1
@@ -32,6 +33,7 @@ require (
 	github.com/spf13/pflag v1.0.5
 	github.com/spf13/viper v1.6.3
 	github.com/swaggo/gin-swagger v1.2.0
+	github.com/swaggo/swag v1.5.1
 	github.com/teris-io/shortid v0.0.0-20171029131806-771a37caa5cf
 	github.com/tommy351/gin-sessions v0.0.0-20150617141853-353060947eb6
 	github.com/valyala/fasttemplate v1.1.0 // indirect

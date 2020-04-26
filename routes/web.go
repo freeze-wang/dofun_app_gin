@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"dofun/app/controllers/api/topic"
 	"dofun/pkg/ginutils/captcha"
 	"dofun/pkg/ginutils/router"
 	"dofun/routes/middleware"
@@ -11,12 +12,7 @@ import (
 	"dofun/app/controllers/auth/password"
 	"dofun/app/controllers/auth/register"
 	"dofun/app/controllers/auth/verification"
-	"dofun/app/controllers/category"
-	"dofun/app/controllers/notification"
 
-	"dofun/app/controllers/reply"
-	"dofun/app/controllers/topic"
-	"dofun/app/controllers/user"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -26,7 +22,6 @@ func registerWeb(r *router.MyRoute, middlewares ...gin.HandlerFunc) {
 	r = r.Middleware(middlewares...)
 
 	// r.Register("GET", "root", "", page.Root)
-	r.Register("GET", "root", "", topic.Index)
 	r.Register("GET", "captcha", "captcha/:id", captcha.Handler) // 验证码
 
 	// ------------------------------------- Auth -------------------------------------
@@ -74,15 +69,7 @@ func registerWeb(r *router.MyRoute, middlewares ...gin.HandlerFunc) {
 	}
 
 	// ------------------------------------- User -------------------------------------
-	userRouter := r.Group("/users")
-	{
-		// 显示用户个人信息页面
-		userRouter.Register("GET", "users.show", "/show/:id", user.Show)
-		// 显示编辑个人资料页面
-		userRouter.Register("GET", "users.edit", "/edit/:id", middleware.Auth(), wrapper.GetUser(user.Edit))
-		// 处理 edit 页面提交的更改
-		userRouter.Register("POST", "users.update", "/update/:id", middleware.Auth(), wrapper.GetUser(user.Update))
-	}
+
 
 	// ------------------------------------- topic -------------------------------------
 	topicRouter := r.Group("/topics")
@@ -90,31 +77,10 @@ func registerWeb(r *router.MyRoute, middlewares ...gin.HandlerFunc) {
 		topicRouter.Register("GET", "topics.index", "", topic.Index)
 		topicRouter.Register("GET", "topics.show_no_slug", "/show/:id", topic.Show)
 		topicRouter.Register("GET", "topics.show", "/show/:id/*slug", topic.Show)
-		topicRouter.Register("GET", "topics.create", "/create", middleware.Auth(), wrapper.GetUser(topic.Create))
-		topicRouter.Register("POST", "topics.store", "", middleware.Auth(), wrapper.GetUser(topic.Store))
-		topicRouter.Register("GET", "topics.edit", "/edit/:id", middleware.Auth(), wrapper.GetUser(topic.Edit))
-		topicRouter.Register("POST", "topics.update", "/update/:id", middleware.Auth(), wrapper.GetUser(topic.Update))
-		topicRouter.Register("POST", "topics.destroy", "/destroy/:id", middleware.Auth(), wrapper.GetUser(topic.Destroy))
 
-		topicRouter.Register("POST", "topics.upload_image", "/upload_image", middleware.Auth(), wrapper.GetUser(topic.UploadImage))
 	}
 
 	// ------------------------------------- category -------------------------------------
-	catRouter := r.Group("/categories")
-	{
-		catRouter.Register("GET", "categories.show", "/show/:id", category.Show)
-	}
 
 	// ------------------------------------- reply -------------------------------------
-	replyRouter := r.Group("/replies", middleware.Auth())
-	{
-		replyRouter.Register("POST", "replies.store", "", wrapper.GetUser(reply.Store))
-		replyRouter.Register("POST", "replies.destroy", "/destroy/:id", wrapper.GetUser(reply.Destroy))
-	}
-
-	// ------------------------------------- notification -------------------------------------
-	notificationRouter := r.Group("/notifications", middleware.Auth())
-	{
-		notificationRouter.Register("GET", "notifications.index", "", wrapper.GetUser(notification.Index))
-	}
 }

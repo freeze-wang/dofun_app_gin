@@ -15,7 +15,7 @@ import (
 
 const (
 	// TableName 表名
-	TableName = "users"
+	TableName = "df_user"
 )
 
 var (
