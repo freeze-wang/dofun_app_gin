@@ -41,7 +41,7 @@ func SendMail(mailTo []string, subject string, templateName string, tplData map[
 func SendVerifyEmail(u *userModel.User) error {
 	subject := "感谢注册 Weibo 应用！请确认你的邮箱。"
 	tpl := "mail/verify.html"
-	verifyURL := router.G("verification.verify", "token", u.ActivationToken)
+	verifyURL := router.G("verification.verify", "token", u.LastToken)
 
 	return SendMail([]string{u.Email}, subject, tpl, map[string]interface{}{"URL": verifyURL})
 }

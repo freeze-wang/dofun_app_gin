@@ -1,10 +1,7 @@
 package topic
 
 import (
-	"dofun/app/models/category"
-	"dofun/app/models/user"
 	"dofun/database"
-	"dofun/pkg/ginutils/router"
 )
 
 const (
@@ -122,41 +119,3 @@ func GetByUserID(userID, offset, limit int, order string) (topics []*Topic, err 
 	return topics, nil
 }
 
-// TopicAndCategory 获取 topic 的 category
-func TopicAndCategory(topicID int) (*Topic, *category.Category, error) {
-	t, err := Get(topicID)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	c, err := category.Get(int(t.CategoryID))
-	if err != nil {
-		return nil, nil, err
-	}
-
-	return t, c, err
-}
-
-// TopicAndUser 获取 topic 的 user
-func TopicAndUser(topicID int) (*Topic, *user.User, error) {
-	t, err := Get(topicID)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	u, err := user.Get(int(t.UserID))
-	if err != nil {
-		return nil, nil, err
-	}
-
-	return t, u, err
-}
-
-// Link 生成 topic show link
-func (t *Topic) Link() string {
-	link := router.G("topics.show", t.ID)
-	if t.Slug != "" {
-		return link + t.Slug
-	}
-	return link
-}

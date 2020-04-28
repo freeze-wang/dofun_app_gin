@@ -6,6 +6,7 @@ import (
 	"dofun/bootstrap"
 	"dofun/config"
 	"dofun/database"
+	"dofun/routes/middleware"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/pflag"
 )
@@ -31,9 +32,10 @@ func setupRouter() *gin.Engine {
 			c.String(200, "pong")
 		})
 	}*/
-	v1 := r.Group("api/v1/")
+	v1 := r.Group("api/v1/").Use(middleware.TokenRefresh())
 	{
 		v1.GET("index/dynamic/:id",dynamic.Index)
+		v1.GET("dynamic/detail/:id",dynamic.Detail)
 	}
 	r.POST("/login",authorization.Store)
 

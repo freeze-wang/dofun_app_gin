@@ -2,7 +2,7 @@
 
 APP:
   NAME: dofun
-  RUNMODE: release # 模式: debug, release, test
+  RUNMODE: debug # 模式: debug, release, test
   Addr: :8080 # 端口
   URL: http://192.168.10.10:8080 # 网站 url，内部跳转时会用到该项
   KEY: Rtg8BPKNEf2mB4mgvKONGPZZQSaJWNLijxR42qRgq0iBb5

@@ -8,6 +8,7 @@ import (
 	"dofun/pkg/errno"
 	"dofun/pkg/ginutils/validate"
 	"mime/multipart"
+	"strconv"
 )
 
 // Upload -
@@ -66,7 +67,7 @@ func (u *Upload) Run(user *userModel.User) (*imageModel.Image, *errno.Errno) {
 		maxWidth = 1024
 	}
 
-	path, err := helpers.SaveImage(u.Image, u.Type+"s", user.GetIDstring(), maxWidth)
+	path, err := helpers.SaveImage(u.Image, u.Type+"s", strconv.Itoa(int(user.ID)), maxWidth)
 	if err != nil {
 		return nil, errno.New(errno.UploadError, err)
 	}

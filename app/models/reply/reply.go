@@ -55,7 +55,7 @@ func updateTopicReplyCount(r *Reply, num int) (err error) {
 		return err
 	}
 
-	t.ReplyCount = newCount + num
+	//t.ReplyCount = newCount + num
 	database.DB.Model(&t).UpdateColumn("reply_count", newCount+num) // 不触发 topic hook
 
 	return nil

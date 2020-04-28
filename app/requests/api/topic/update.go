@@ -25,7 +25,7 @@ func (u *Update) RegisterValidators() validate.ValidatorMap {
 
 // Run -
 func (u *Update) Run(topic *topicModel.Topic) *errno.Errno {
-	ok, _, errMap := validate.Run(u)
+	/*ok, _, errMap := validate.Run(u)
 	if !ok {
 		return errno.New(errno.ParamsError, errMap)
 	}
@@ -40,7 +40,7 @@ func (u *Update) Run(topic *topicModel.Topic) *errno.Errno {
 
 	if err := topic.Update(); err != nil {
 		return errno.New(errno.DatabaseError, err)
-	}
+	}*/
 
 	return nil
 }

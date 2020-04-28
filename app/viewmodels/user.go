@@ -24,11 +24,10 @@ type UserViewModel struct {
 func NewUserViewModelSerializer(u *userModel.User) *UserViewModel {
 	data := &UserViewModel{
 		ID:                int(u.ID),
-		Name:              u.Name,
+		Name:              u.Nickname,
 		Email:             u.Email,
 		Avatar:            u.Avatar,
-		Introduction:      u.Introduction,
-		NotificationCount: u.NotificationCount,
+		Introduction:      u.Sign,
 		CreatedAt:         gintime.SinceForHuman(u.CreatedAt),
 	}
 	t := helpers.GetUserActivedLastActivedAt(u)
@@ -43,10 +42,10 @@ func NewUserViewModelSerializer(u *userModel.User) *UserViewModel {
 func NewUserAPISerializer(u *userModel.User) map[string]interface{} {
 	r := map[string]interface{}{
 		"id":           u.ID,
-		"name":         u.Name,
+		"name":         u.Nickname,
 		"email":        u.Email,
 		"avatar":       u.Avatar,
-		"introduction": u.Introduction,
+		"introduction": u.Sign,
 		"bound_phone":  false,
 		"bound_wechat": false,
 		"created_at":   u.CreatedAt.Format(constants.DateTimeLayout),
@@ -60,7 +59,7 @@ func NewUserAPISerializer(u *userModel.User) map[string]interface{} {
 	if u.Phone != "" {
 		r["bound_phone"] = true
 	}
-	if u.WeixinUnionID != "" {
+	if u.WeixinUnionid != "" {
 		r["bound_wechat"] = true
 	}
 

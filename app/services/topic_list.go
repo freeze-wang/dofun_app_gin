@@ -33,8 +33,8 @@ func TopicListService(getToipcsFunc func() ([]*topicModel.Topic, error)) (interf
 	for _, t := range topics {
 		topicIDMap[t.ID] = viewmodels.NewTopicViewModelSerializer(t)
 		topicIDs = append(topicIDs, t.ID)
-		usersIDs = append(usersIDs, t.UserID)
-		catIDs = append(catIDs, t.CategoryID)
+/*		usersIDs = append(usersIDs, t.UserID)
+		catIDs = append(catIDs, t.CategoryID)*/
 	}
 
 	// 获取 user 和 category
@@ -46,7 +46,7 @@ func TopicListService(getToipcsFunc func() ([]*topicModel.Topic, error)) (interf
 	}
 
 	// 整理数据
-	for _, t := range topics {
+/*	for _, t := range topics {
 		for _, u := range users {
 			if t.UserID == u.ID {
 				topicIDMap[t.ID]["User"] = viewmodels.NewUserViewModelSerializer(u)
@@ -58,7 +58,7 @@ func TopicListService(getToipcsFunc func() ([]*topicModel.Topic, error)) (interf
 				topicIDMap[t.ID]["Category"] = c
 			}
 		}
-	}
+	}*/
 
 	for _, id := range topicIDs {
 		result = append(result, topicIDMap[id])
@@ -91,8 +91,8 @@ func TopicListAPIService(getToipcsFunc func() ([]*topicModel.Topic, error)) (int
 	for _, t := range topics {
 		topicIDMap[t.ID] = viewmodels.TopicApi(t)
 		topicIDs = append(topicIDs, t.ID)
-		usersIDs = append(usersIDs, t.UserID)
-		catIDs = append(catIDs, t.CategoryID)
+/*		usersIDs = append(usersIDs, t.UserID)
+		catIDs = append(catIDs, t.CategoryID)*/
 	}
 
 	// 获取 user 和 category
@@ -103,7 +103,7 @@ func TopicListAPIService(getToipcsFunc func() ([]*topicModel.Topic, error)) (int
 		return nil, err
 	}
 
-	// 整理数据
+/*	// 整理数据
 	for _, t := range topics {
 		for _, u := range users {
 			if t.UserID == u.ID {
@@ -116,7 +116,7 @@ func TopicListAPIService(getToipcsFunc func() ([]*topicModel.Topic, error)) (int
 				topicIDMap[t.ID]["category"] = viewmodels.Category(c)
 			}
 		}
-	}
+	}*/
 
 	for _, id := range topicIDs {
 		result = append(result, topicIDMap[id])

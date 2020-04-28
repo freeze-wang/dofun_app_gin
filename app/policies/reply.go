@@ -27,9 +27,9 @@ func CheckReplyPolicy(currentUser *userModel.User, reply *replyModel.Reply, topi
 		return true
 	}
 
-	if reply.UserID == currentUser.ID || topic.UserID == currentUser.ID {
+	/*if reply.UserID == currentUser.ID || topic.UserID == currentUser.ID {
 		return true
-	}
+	}*/
 
 	return false
 }

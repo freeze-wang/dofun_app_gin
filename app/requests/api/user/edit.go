@@ -82,8 +82,8 @@ func (e *Edit) Run(user *userModel.User) *errno.Errno {
 		return errno.New(errno.ParamsError, errMap)
 	}
 
-	user.Name = e.Name
-	user.Introduction = e.Introduction
+	user.Nickname = e.Name
+	user.Sign = e.Introduction
 	if e.Email != "" {
 		user.Email = e.Email
 	}

@@ -1,13 +1,10 @@
 package factory
 
 import (
-	"fmt"
-	"dofun/app/models"
 	permissionModel "dofun/app/models/permission"
 	userModel "dofun/app/models/user"
 	"dofun/pkg/ginutils/utils"
-
-	"time"
+	"fmt"
 
 	"github.com/Pallinder/go-randomdata"
 	"github.com/bluele/factory-go/factory"
@@ -26,12 +23,9 @@ var (
 )
 
 func userFactory(i int) *factory.Factory {
-	now := time.Now()
 	u := &userModel.User{
 		Password:        "123456",
-		EmailVerifiedAt: &now,
-		Activated:       models.TrueTinyint,
-		RememberToken:   string(utils.RandomCreateBytes(10)),
+		LastToken:   string(utils.RandomCreateBytes(10)),
 	}
 	r := utils.RandInt(0, len(avatars)-1)
 

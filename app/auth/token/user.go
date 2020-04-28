@@ -70,6 +70,19 @@ func GetTokenUserFromContext(c *gin.Context) (string, *userModel.User, bool) {
 	return s, u, true
 }
 
+// User -
+func User(c *gin.Context) *userModel.User {
+	user, ok := c.Get(tokenHeaderKeyName + "User")
+	if !ok {
+		return nil
+	}
+
+	u, uok := user.(*userModel.User)
+	if !uok {
+		return nil
+	}
+	return u
+}
 // ---------------- private
 func getTokenFromHeader(c *gin.Context) (string, bool) {
 	header := c.Request.Header.Get(tokenHeaderKeyName)

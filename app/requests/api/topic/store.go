@@ -43,7 +43,7 @@ func (*Store) RegisterMessages() validate.MessagesMap {
 
 // Run -
 func (s *Store) Run(userid uint) (*topicModel.Topic, *errno.Errno) {
-	ok, _, errMap := validate.Run(s)
+	/*ok, _, errMap := validate.Run(s)
 	if !ok {
 		return nil, errno.New(errno.ParamsError, errMap)
 	}
@@ -58,5 +58,6 @@ func (s *Store) Run(userid uint) (*topicModel.Topic, *errno.Errno) {
 		return nil, errno.New(errno.DatabaseError, err)
 	}
 
-	return t, nil
+	return t, nil*/
+	return  nil,nil
 }

@@ -29,3 +29,16 @@ func TokenAuth() gin.HandlerFunc {
 		c.Next()
 	}
 }
+// TokenAuth token 验证
+func TokenRefresh() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		tokenStr, err := token.GetTokenFromRequest(c)
+		if err != nil || tokenStr == "" {
+			c.Next()
+			return
+		}
+		_, _ = token.ParseAndGetUser(c, tokenStr) // 会将用户数据和 token 存到 gin.Context 中
+
+		c.Next()
+	}
+}

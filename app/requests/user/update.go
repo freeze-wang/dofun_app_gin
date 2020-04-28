@@ -8,6 +8,7 @@ import (
 	"dofun/pkg/ginutils/flash"
 	"dofun/pkg/ginutils/validate"
 	"mime/multipart"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -79,12 +80,12 @@ func (u *UserUpdateForm) ValidateAndUpdate(c *gin.Context, user *userModel.User)
 	}
 
 	// 更新用户
-	user.Name = u.Name
+	user.Nickname = u.Name
 	user.Email = u.Email
-	user.Introduction = u.Introduction
+	user.Sign = u.Introduction
 	// 如果有上传用户头像
 	if u.Avatar != nil {
-		avatarPath, err := helpers.SaveImage(u.Avatar, "avatars", user.GetIDstring(), 416)
+		avatarPath, err := helpers.SaveImage(u.Avatar, "avatars", strconv.Itoa(int(user.ID)), 416)
 		if err != nil {
 			validate.AddMessageAndSaveToFlash(c, "avatar", "头像上传失败: "+err.Error(), errArr, errMap)
 			return false

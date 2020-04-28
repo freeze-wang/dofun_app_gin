@@ -81,7 +81,7 @@ func (u *UserCreateForm) ValidateAndSave(c *gin.Context) (bool, *userModel.User)
 
 	// 创建用户
 	user := &userModel.User{
-		Name:     u.Name,
+		Nickname:     u.Name,
 		Email:    u.Email,
 		Password: u.Password,
 	}

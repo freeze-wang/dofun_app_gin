@@ -1,9 +1,10 @@
 package system
 
 import (
-	"dofun/app/controllers"
+	"dofun/app/models/dynamic"
+	"dofun/app/models/topic"
+	"dofun/database"
 	"dofun/pkg/constants"
-	"dofun/pkg/errno"
 	"dofun/pkg/ginutils"
 	"dofun/pkg/ginutils/utils"
 	"github.com/gin-gonic/gin"
@@ -28,6 +29,8 @@ type Menu struct {
 	IsDefault int       `gorm:"column:is_default;not null"`                  // 是否默认
 	Status    uint      `gorm:"column:status;not null"`                      // 状态
 	Weight    int       `gorm:"column:weight;not null;default:0"`            // 回复数量
+	Topic		[]topic.Topic `gorm:"many2many:app_dynamic_system_menu_topic;association_jointable_foreignkey:topic_id;jointable_foreignkey:system_menu_id" json:"topic"`
+	Dynamic		[]dynamic.Dynamic `gorm:"many2many:app_dynamic_system_menu_topic;association_jointable_foreignkey:topic_id;jointable_foreignkey:system_menu_id" json:"dynamic"`
 	CreatedAt time.Time `gorm:"column:created_at"`
 	UpdatedAt time.Time `gorm:"column:updated_at"`
 }
@@ -41,17 +44,40 @@ func (Menu) TableName() string {
 func GetMenu(c *gin.Context) (*Menu, int, bool) {
 	id, err := ginutils.GetIntParam(c, "id")
 	if err != nil {
-		controllers.SendErrorResponse(c, errno.Base(errno.ParamsError, "id 不存在"))
 		return nil, id, false
 	}
 
 	menu, err := GetMenuModel(id)
 	if err != nil {
-		controllers.SendErrorResponse(c, err)
 		return nil, id, false
 	}
 
 	return menu, id, true
+}
+
+func GetTopic(c *gin.Context) (interface{},  bool) {
+	topics := make([]*topic.Topic, 0)
+	id, err := ginutils.GetIntParam(c, "id")
+	if err != nil {
+		return nil, false
+	}
+	menu, err := GetMenuModel(id)
+	database.DB.Model(&menu).Related(&topics, "topic")
+	return topics,true
+}
+func GetDynamic(c *gin.Context) (interface{},  bool) {
+	dynamcis := make([]*dynamic.Dynamic, 0)
+	//user := token.User(c)
+	id, err := ginutils.GetIntParam(c, "id")
+	if err != nil {
+		return nil, false
+	}
+	menu, err := GetMenuModel(id)
+	database.DB.Model(menu).Preload("Topic", func(db *gorm.DB) *gorm.DB {
+		return db.Select("id,topic_name,topic_type")
+	}).Preload("User").Related(&dynamcis, "dynamic")
+
+	return dynamcis,true
 }
 // Menu -
 func MenuApi(t *Menu) map[string]interface{} {

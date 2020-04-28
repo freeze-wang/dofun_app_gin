@@ -10,6 +10,6 @@ import (
 // Stats 通知统计
 func Stats(c *gin.Context, currentUser *userModel.User, tokenString string) {
 	controllers.SendOKResponse(c, map[string]int{
-		"unread_count": currentUser.NotificationCount,
+		"unread_count": 0,
 	})
 }

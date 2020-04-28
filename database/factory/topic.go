@@ -1,17 +1,14 @@
 package factory
 
 import (
-	"fmt"
 	"dofun/app/models/category"
 	"dofun/app/models/topic"
 	"dofun/app/models/user"
-	"dofun/pkg/ginutils/utils"
-
-	"github.com/Pallinder/go-randomdata"
+	"fmt"
 )
 
 func topicFactory(uids, cids []uint) *topic.Topic {
-	title := randomdata.Country(randomdata.FullCountry)
+	/*title := randomdata.Country(randomdata.FullCountry)
 	paragraph := randomdata.Paragraph()
 	excerpt := paragraph
 	if len(excerpt) > 20 {
@@ -28,7 +25,8 @@ func topicFactory(uids, cids []uint) *topic.Topic {
 		Excerpt:    excerpt,
 		UserID:     randUID,
 		CategoryID: randCID,
-	}
+	}*/
+	return nil
 }
 
 // TopicTableSeeder -

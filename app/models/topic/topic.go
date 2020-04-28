@@ -1,10 +1,6 @@
 package topic
 
 import (
-	"dofun/app/helpers"
-	"dofun/app/models"
-	"dofun/database"
-	"dofun/pkg/ginutils/utils"
 	"regexp"
 	"strconv"
 	"strings"
@@ -20,49 +16,33 @@ var (
 
 // Topic 话题
 type Topic struct {
-	models.BaseModel
-	Title           string `gorm:"column:title;type:varchar(255);not null" sql:"index"` // 帖子标题
-	Body            string `gorm:"column:body;type:text;not null"`                      // 帖子内容
-	UserID          uint   `gorm:"column:user_id;not null" sql:"index"`                 // 用户 ID
-	CategoryID      uint   `gorm:"column:category_id;not null" sql:"index"`             // 分类 ID
-	ReplyCount      int    `gorm:"column:reply_count;not null;default:0"`               // 回复数量
-	ViewCount       int    `gorm:"column:view_count;not null;default:0"`                // 查看总数
-	LastReplyUserID uint   `gorm:"column:last_reply_user_id;not null;default:0"`        // 最后回复的用户 ID
-	Order           int    `gorm:"column:order;not null;default:0"`                     // 排序
-	Excerpt         string `gorm:"column:excerpt;type:text"`                            // 文章摘要，SEO 优化时使用
-	Slug            string `gorm:"column:slug;type:varchar(255)"`                       // SEO 友好的 URI
+	ID        uint      `json:"id" gorm:"column:id;primary_key;AUTO_INCREMENT;not null" binding:"required"`
+	TopicName string    `json:"topic_name" gorm:"column:topic_name;not null" binding:"required"`
+	TopicType string    `json:"topic_type" gorm:"column:topic_type;not null" binding:"required"`
+	IsDefault int       `json:"is_default" gorm:"column:is_default;" binding:"required"`
+	Status    int       `json:"status" gorm:"column:status;" binding:"required"`
+	CreatedAt time.Time `json:"created_at" gorm:"column:created_at;not null" binding:"required"`
+	UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at;not null" binding:"required"`
 }
 
 // TableName 表名
 func (Topic) TableName() string {
-	return "topics"
+	return "app_topic"
 }
 
 // BeforeSave - hook
 func (t *Topic) BeforeSave() error {
-	t.Body = utils.XSSClean(t.Body)
-	t.Excerpt = makeExcerpt(t.Body, 200)
-
 	return nil
 }
 
 // AfterSave - hook
 func (t *Topic) AfterSave() error {
-	// if t.Slug == "" {
-	// SlugTranslate 需要请求百度 api，放到协程中执行
-	go func(t *Topic) {
-		slug := helpers.SlugTranslate(t.Title)
-		database.DB.Model(&t).UpdateColumn("slug", slug) // 这样更新可避免触发 gorm 钩子，从而导致死循环
-	}(t)
-	// }
 
 	return nil
 }
 
 // BeforeDelete - hook
 func (t *Topic) BeforeDelete(tx *gorm.DB) (err error) {
-	// 话题删除时，删除其所属的回复
-	tx.Exec("delete from replies where topic_id = ?", t.ID)
 
 	return
 }

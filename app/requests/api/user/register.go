@@ -74,7 +74,7 @@ func (u *Register) ValidateAndCreateUser() *errno.Errno {
 
 	// 创建用户
 	user := &userModel.User{
-		Name:     u.Name,
+		Nickname:     u.Name,
 		Phone:    cachedData["phone"],
 		Password: u.Password,
 	}

@@ -1,10 +1,8 @@
 package dynamic
 
 import (
-	"dofun/app/helpers"
-	"dofun/app/models"
-	"dofun/database"
-	"dofun/pkg/ginutils/utils"
+	"dofun/app/models/topic"
+	"dofun/app/models/user"
 	"regexp"
 	"strconv"
 	"strings"
@@ -15,55 +13,55 @@ import (
 )
 
 var (
-	topicCache = cache.New(10*time.Minute, 30*time.Minute)
+	dynamicCache = cache.New(10*time.Minute, 30*time.Minute)
 )
 
-// Menu 菜单
-type Menu struct {
-	models.BaseModel
-	Title           string `gorm:"column:title;type:varchar(255);not null" sql:"index"` // 帖子标题
-	Body            string `gorm:"column:body;type:text;not null"`                      // 帖子内容
-	UserID          uint   `gorm:"column:user_id;not null" sql:"index"`                 // 用户 ID
-	CategoryID      uint   `gorm:"column:category_id;not null" sql:"index"`             // 分类 ID
-	ReplyCount      int    `gorm:"column:reply_count;not null;default:0"`               // 回复数量
-	ViewCount       int    `gorm:"column:view_count;not null;default:0"`                // 查看总数
-	LastReplyUserID uint   `gorm:"column:last_reply_user_id;not null;default:0"`        // 最后回复的用户 ID
-	Order           int    `gorm:"column:order;not null;default:0"`                     // 排序
-	Excerpt         string `gorm:"column:excerpt;type:text"`                            // 文章摘要，SEO 优化时使用
-	Slug            string `gorm:"column:slug;type:varchar(255)"`                       // SEO 友好的 URI
+// Dynamic 动态
+type Dynamic struct {
+	ID             int         `json:"id" gorm:"column:id;primary_key;AUTO_INCREMENT;not null" binding:"required"`
+	TopicId        int         `json:"topic_id" gorm:"column:topic_id;not null" binding:"required"`
+	Content        string      `json:"content" gorm:"column:content;not null" binding:"required"`
+	UserType       string      `json:"user_type" gorm:"column:user_type;not null" binding:"required"`
+	UserId         int         `json:"user_id" gorm:"column:user_id;not null" binding:"required"`
+	AdminId        int         `json:"admin_id" gorm:"column:admin_id;" binding:"required"`
+	PraisePoints   int         `json:"praise_points" gorm:"column:praise_points;" binding:"required"`
+	ShareNumber    int         `json:"share_number" gorm:"column:share_number;" binding:"required"`
+	IsTop          int         `json:"is_top" gorm:"column:is_top;" binding:"required"`
+	Status         int         `json:"status" gorm:"column:status;" binding:"required"`
+	Remark         string      `json:"remark" gorm:"column:remark;not null" binding:"required"`
+	JumpIconUrl    string      `json:"jump_icon_url" gorm:"column:jump_icon_url;not null" binding:"required"`
+	JumpCopy       string      `json:"jump_copy" gorm:"column:jump_copy;not null" binding:"required"`
+	JumpType       string      `json:"jump_type" gorm:"column:jump_type;not null" binding:"required"`
+	JumpLocation   string      `json:"jump_location" gorm:"column:jump_location;not null" binding:"required"`
+	ClickNumber    int         `json:"click_number" gorm:"column:click_number;not null" binding:"required"`
+	ClickFrequency string      `json:"click_frequency" gorm:"column:click_frequency;not null" binding:"required"`
+	DeleteStatus   int         `json:"delete_status" gorm:"column:delete_status;not null" binding:"required"`
+	HotAt          time.Time   `json:"hot_at" gorm:"column:hot_at;not null" binding:"required"`
+	CreatedAt      time.Time   `json:"created_at" gorm:"column:created_at;not null" binding:"required"`
+	UpdatedAt      time.Time   `json:"updated_at" gorm:"column:updated_at;not null" binding:"required"`
+	User           user.User   `json:"user" gorm:"ForeignKey:user_id"`
+	Topic          topic.Topic `json:"topic" gorm:"ForeignKey:topic_id"`
 }
 
 // TableName 表名
-func (Menu) TableName() string {
-	return "app_system_menu"
+func (Dynamic) TableName() string {
+	return "app_topic_dynamic"
 }
 
-
 // BeforeSave - hook
-func (t *Menu) BeforeSave() error {
-	t.Body = utils.XSSClean(t.Body)
-	t.Excerpt = makeExcerpt(t.Body, 200)
+func (t *Dynamic) BeforeSave() error {
 
 	return nil
 }
 
 // AfterSave - hook
-func (t *Menu) AfterSave() error {
-	// if t.Slug == "" {
-	// SlugTranslate 需要请求百度 api，放到协程中执行
-	go func(t *Menu) {
-		slug := helpers.SlugTranslate(t.Title)
-		database.DB.Model(&t).UpdateColumn("slug", slug) // 这样更新可避免触发 gorm 钩子，从而导致死循环
-	}(t)
-	// }
+func (t *Dynamic) AfterSave() error {
 
 	return nil
 }
 
 // BeforeDelete - hook
-func (t *Menu) BeforeDelete(tx *gorm.DB) (err error) {
-	// 话题删除时，删除其所属的回复
-	tx.Exec("delete from replies where topic_id = ?", t.ID)
+func (t *Dynamic) BeforeDelete(tx *gorm.DB) (err error) {
 
 	return
 }
@@ -81,18 +79,18 @@ func makeExcerpt(value string, length int) string {
 	return string(ru[:length])
 }
 
-func setToCache(topic *Menu) {
-	key := strconv.Itoa(int(topic.ID))
-	topicCache.Set(key, topic, cache.DefaultExpiration)
+func setToCache(dynamic *Dynamic) {
+	key := strconv.Itoa(int(dynamic.ID))
+	dynamicCache.Set(key, dynamic, cache.DefaultExpiration)
 }
 
-func getFromCache(id int) (*Menu, bool) {
-	cachedTopic, ok := topicCache.Get(strconv.Itoa(id))
+func getFromCache(id int) (*Dynamic, bool) {
+	cachedDynamic, ok := dynamicCache.Get(strconv.Itoa(id))
 	if !ok {
 		return nil, false
 	}
 
-	t, ok := cachedTopic.(*Menu)
+	t, ok := cachedDynamic.(*Dynamic)
 	if !ok {
 		return nil, false
 	}
@@ -101,5 +99,5 @@ func getFromCache(id int) (*Menu, bool) {
 }
 
 func delCache(id int) {
-	topicCache.Delete(strconv.Itoa(id))
+	dynamicCache.Delete(strconv.Itoa(id))
 }

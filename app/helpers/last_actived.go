@@ -35,9 +35,7 @@ func SyncUserActivedAtToDatabase() {
 			continue
 		}
 
-		if ttint, ok := v.Object.(int64); ok {
-			ttime := time.Unix(ttint, 0)
-			user.LastActivedAt = &ttime
+		if _, ok := v.Object.(int64); ok {
 			user.Update()
 		}
 	}
@@ -54,9 +52,6 @@ func GetUserActivedLastActivedAt(u *userModel.User) *time.Time {
 		}
 	}
 
-	if u.LastActivedAt != nil {
-		return u.LastActivedAt
-	}
 
 	return nil
 }
