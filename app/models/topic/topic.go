@@ -1,6 +1,7 @@
 package topic
 
 import (
+	"dofun/app/models"
 	"regexp"
 	"strconv"
 	"strings"
@@ -21,8 +22,8 @@ type Topic struct {
 	TopicType string    `json:"topic_type" gorm:"column:topic_type;not null" binding:"required"`
 	IsDefault int       `json:"is_default" gorm:"column:is_default;" binding:"required"`
 	Status    int       `json:"status" gorm:"column:status;" binding:"required"`
-	CreatedAt time.Time `json:"created_at" gorm:"column:created_at;not null" binding:"required"`
-	UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at;not null" binding:"required"`
+	CreatedAt models.Time `json:"created_at" gorm:"column:created_at;" binding:"required"`
+	UpdatedAt models.Time `json:"updated_at" gorm:"column:updated_at;" binding:"required"`
 }
 
 // TableName 表名

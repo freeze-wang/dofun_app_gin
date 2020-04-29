@@ -2,6 +2,7 @@ package user
 
 import (
 	"crypto/md5"
+	"dofun/app/models"
 	"encoding/hex"
 	"errors"
 	"strconv"
@@ -22,35 +23,36 @@ var (
 
 // User 用户模型
 type User struct {
-	ID             uint `json:"id" gorm:"column:id;primary_key;AUTO_INCREMENT;not null" binding:"required"`
-	UserType       string `json:"user_type" gorm:"column:user_type;not null" binding:"required"`
-	ZhwId          int `json:"zhw_id" gorm:"column:zhw_id;not null" binding:"required"`
-	ZhwUsername    string `json:"zhw_username" gorm:"column:zhw_username;not null" binding:"required"`
-	DjIdentify     string `json:"dj_identify" gorm:"column:dj_identify;not null" binding:"required"`
-	ChannelNumber  string `json:"channel_number" gorm:"column:channel_number;not null" binding:"required"`
-	BeansBalance   float64 `json:"beans_balance" gorm:"column:beans_balance;not null" binding:"required"`
-	IntegralTotal  int `json:"integral_total" gorm:"column:integral_total;not null" binding:"required"`
-	Phone          string `json:"phone" gorm:"column:phone;not null" binding:"required"`
-	Avatar         string `json:"avatar" gorm:"column:avatar;not null" binding:"required"`
-	Nickname       string `json:"nickname" gorm:"column:nickname;not null" binding:"required"`
-	Gender         string `json:"gender" gorm:"column:gender;not null" binding:"required"`
-	Email          string `json:"email" gorm:"column:email;not null" binding:"required"`
-	Salt           string `json:"salt" gorm:"column:salt;not null" binding:"required"`
-	Password       string `json:"password" gorm:"column:password;not null" binding:"required"`
-	QqUnionid      string `json:"qq_unionid" gorm:"column:qq_unionid;not null" binding:"required"`
-	WeixinUnionid  string `json:"weixin_unionid" gorm:"column:weixin_unionid;not null" binding:"required"`
-	RegisterIp     string `json:"register_ip" gorm:"column:register_ip;not null" binding:"required"`
-	LastToken      string `json:"last_token" gorm:"column:last_token;not null" binding:"required"`
-	Status         int `json:"status" gorm:"column:status;not null" binding:"required"`
-	IsBlack        int `json:"is_black" gorm:"column:is_black;not null" binding:"required"`
-	InviteCode     string `json:"invite_code" gorm:"column:invite_code;not null" binding:"required"`
-	RegisterSource string `json:"register_source" gorm:"column:register_source;not null" binding:"required"`
-	ProductSource  string `json:"product_source" gorm:"column:product_source;not null" binding:"required"`
-	Sign           string `json:"sign" gorm:"column:sign;not null" binding:"required"`
-	ZhwLoginData   string `json:"zhw_login_data" gorm:"column:zhw_login_data;not null" binding:"required"`
-	CreatedAt      time.Time `json:"created_at" gorm:"column:created_at;not null" binding:"required"`
-	UpdatedAt      time.Time `json:"updated_at" gorm:"column:updated_at;not null" binding:"required"`
-	DeletedAt      time.Time `json:"deleted_at" gorm:"column:deleted_at;not null" binding:"required"`
+	ID             uint            `json:"id" gorm:"column:id;primary_key;AUTO_INCREMENT;not null" binding:"required"`
+	UserType       string          `json:"user_type" gorm:"column:user_type;not null" binding:"required"`
+	ZhwId          int             `json:"zhw_id" gorm:"column:zhw_id;not null" binding:"required"`
+	ZhwUsername    string          `json:"zhw_username" gorm:"column:zhw_username;not null" binding:"required"`
+	DjIdentify     string          `json:"dj_identify" gorm:"column:dj_identify;not null" binding:"required"`
+	ChannelNumber  string          `json:"channel_number" gorm:"column:channel_number;not null" binding:"required"`
+	BeansBalance   float64         `json:"beans_balance" gorm:"column:beans_balance;not null" binding:"required"`
+	IntegralTotal  int             `json:"integral_total" gorm:"column:integral_total;not null" binding:"required"`
+	Phone          string          `json:"phone" gorm:"column:phone;not null" binding:"required"`
+	Avatar         string          `json:"avatar" gorm:"column:avatar;not null" binding:"required"`
+	Nickname       string          `json:"nickname" gorm:"column:nickname;not null" binding:"required"`
+	Gender         string          `json:"gender" gorm:"column:gender;not null" binding:"required"`
+	Email          string          `json:"email" gorm:"column:email;not null" binding:"required"`
+	Salt           string          `json:"salt" gorm:"column:salt;not null" binding:"required"`
+	Password       string          `json:"password" gorm:"column:password;not null" binding:"required"`
+	QqUnionid      string          `json:"qq_unionid" gorm:"column:qq_unionid;not null" binding:"required"`
+	WeixinUnionid  string          `json:"weixin_unionid" gorm:"column:weixin_unionid;not null" binding:"required"`
+	RegisterIp     string          `json:"register_ip" gorm:"column:register_ip;not null" binding:"required"`
+	LastToken      string          `json:"last_token" gorm:"column:last_token;not null" binding:"required"`
+	Status         int             `json:"status" gorm:"column:status;not null" binding:"required"`
+	IsBlack        int             `json:"is_black" gorm:"column:is_black;not null" binding:"required"`
+	InviteCode     string          `json:"invite_code" gorm:"column:invite_code;not null" binding:"required"`
+	RegisterSource string          `json:"register_source" gorm:"column:register_source;not null" binding:"required"`
+	ProductSource  string          `json:"product_source" gorm:"column:product_source;not null" binding:"required"`
+	Sign           string          `json:"sign" gorm:"column:sign;not null" binding:"required"`
+	ZhwLoginData   string          `json:"zhw_login_data" gorm:"column:zhw_login_data;not null" binding:"required"`
+	CreatedAt      models.Time     `json:"created_at" gorm:"column:created_at;not null" binding:"required"`
+	UpdatedAt      models.Time     `json:"updated_at" gorm:"column:updated_at;not null" binding:"required"`
+	DeletedAt      models.Time     `json:"deleted_at" gorm:"column:deleted_at;not null" binding:"required"`
+
 }
 
 // TableName 表名
@@ -67,7 +69,6 @@ func (u *User) BeforeCreate() (err error) {
 			}
 		}
 	}
-
 
 	// 生成用户头像
 	if u.Avatar == "" {

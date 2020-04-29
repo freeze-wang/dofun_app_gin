@@ -1,13 +1,99 @@
 package system
 
 import (
+	"dofun/app/auth/token"
+	"dofun/app/controllers"
+	"dofun/app/models/dynamic"
+	"dofun/app/models/topic"
 	"dofun/database"
+	"dofun/pkg/errno"
+	"dofun/pkg/ginutils"
+	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/gorm"
 )
 
 const (
 	orderDefault = "default"
 	orderRecent  = "recent"
 )
+
+// 获取要编辑的 topic
+func GetMenu(c *gin.Context) (*Menu, int, bool) {
+	id, err := ginutils.GetIntParam(c, "id")
+	if err != nil {
+		return nil, id, false
+	}
+
+	menu, err := GetMenuModel(id)
+	if err != nil {
+		return nil, id, false
+	}
+
+	return menu, id, true
+}
+
+func GetTopic(c *gin.Context) (interface{}, bool) {
+	topics := make([]*topic.Topic, 0)
+	id, err := ginutils.GetIntParam(c, "id")
+	if err != nil {
+		return nil, false
+	}
+	menu, err := GetMenuModel(id)
+	database.DB.Model(&menu).Related(&topics, "topic")
+	return topics, true
+}
+func GetRecommendDynamic(c *gin.Context, menu *Menu) (interface{}, bool) {
+	data := make(map[string]interface{})
+	dynamics := make([]*dynamic.Dynamic, 0)
+	banners := make([]*Banner, 0)
+	//user := token.User(c)
+
+	database.DB.Model(menu).Preload("Topic", func(db *gorm.DB) *gorm.DB {
+		return db.Select("id,topic_name,topic_type")
+	}).Preload("User").Related(&dynamics, "dynamic")
+
+	database.DB.Model(menu).Where("bannerable_type = ? and status = ? ", "App\\Models\\V1\\System\\Menu", 1).Limit(5).Order("weight DESC").Related(&banners, "banner")
+	data["type"] = menu.MenuType
+	data["banner"] = banners
+	data["list"] = dynamics
+	return data, true
+}
+
+func GetFollowDynamic(c *gin.Context) (interface{}, bool) {
+	data := make([]*dynamic.Dynamic, 0)
+	brief := &dynamic.Brief{}
+	user := token.User(c)
+	if user == nil {
+		controllers.SendErrorResponse(c, errno.SessionError)
+		return nil, false
+	}
+	if err := database.DB.First(&brief, user.ID).Error; err != nil {
+		return nil, false
+	}
+
+	database.DB.Model(brief).Preload("User").Preload("Topic").Related(&data, "follow_dynamic")
+
+	return data, true
+}
+
+func GetMatchDynamic(c *gin.Context, menu *Menu) (interface{}, bool) {
+	data := make(map[string]interface{})
+	dynamics := make([]*dynamic.Dynamic, 0)
+	banners := make([]*Banner, 0)
+	//user := token.User(c)
+
+	if database.DB.Model(menu).Preload("Topic", func(db *gorm.DB) *gorm.DB {
+		return db.Select("id,topic_name,topic_type")
+	}).Preload("User").Related(&dynamics, "dynamic").RecordNotFound() {
+		return nil, false
+	}
+
+	database.DB.Model(menu).Where("bannerable_type = ? and status = ? ", "App\\Models\\V1\\System\\Menu", 1).Limit(5).Order("weight DESC").Related(&banners, "banner")
+	data["type"] = menu.MenuType
+	data["banner"] = banners
+	data["list"] = dynamics
+	return data, true
+}
 
 // Get -
 func GetMenuModel(id int) (*Menu, error) {

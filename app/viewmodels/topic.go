@@ -3,15 +3,14 @@ package viewmodels
 import (
 	topicModel "dofun/app/models/topic"
 	"dofun/pkg/constants"
-	gintime "dofun/pkg/ginutils/time"
 )
 
 // NewTopicViewModelSerializer -
 func NewTopicViewModelSerializer(t *topicModel.Topic) map[string]interface{} {
 	return map[string]interface{}{
 		"ID":              t.ID,
-		"CreatedAt":       gintime.SinceForHuman(t.CreatedAt),
-		"UpdatedAt":       gintime.SinceForHuman(t.UpdatedAt),
+		"CreatedAt":       t.CreatedAt,
+		"UpdatedAt":       t.UpdatedAt,
 	}
 }
 

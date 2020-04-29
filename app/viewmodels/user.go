@@ -28,7 +28,7 @@ func NewUserViewModelSerializer(u *userModel.User) *UserViewModel {
 		Email:             u.Email,
 		Avatar:            u.Avatar,
 		Introduction:      u.Sign,
-		CreatedAt:         gintime.SinceForHuman(u.CreatedAt),
+		CreatedAt:         gintime.SinceForHuman(u.CreatedAt.Time),
 	}
 	t := helpers.GetUserActivedLastActivedAt(u)
 	if t != nil {

@@ -1,6 +1,7 @@
 package dynamic
 
 import (
+	"dofun/app/models"
 	"dofun/app/models/topic"
 	"dofun/app/models/user"
 	"regexp"
@@ -36,11 +37,28 @@ type Dynamic struct {
 	ClickNumber    int         `json:"click_number" gorm:"column:click_number;not null" binding:"required"`
 	ClickFrequency string      `json:"click_frequency" gorm:"column:click_frequency;not null" binding:"required"`
 	DeleteStatus   int         `json:"delete_status" gorm:"column:delete_status;not null" binding:"required"`
-	HotAt          time.Time   `json:"hot_at" gorm:"column:hot_at;not null" binding:"required"`
-	CreatedAt      time.Time   `json:"created_at" gorm:"column:created_at;not null" binding:"required"`
-	UpdatedAt      time.Time   `json:"updated_at" gorm:"column:updated_at;not null" binding:"required"`
+	HotAt          models.Time `json:"hot_at" gorm:"column:hot_at;not null" binding:"required"`
+	CreatedAt      models.Time `json:"created_at" gorm:"column:created_at;not null" binding:"required"`
+	UpdatedAt      models.Time `json:"updated_at" gorm:"column:updated_at;not null" binding:"required"`
 	User           user.User   `json:"user" gorm:"ForeignKey:user_id"`
 	Topic          topic.Topic `json:"topic" gorm:"ForeignKey:topic_id"`
+}
+
+// User 简略版用户模型
+type Brief struct {
+	ID            uint    `json:"id" gorm:"column:id;primary_key;AUTO_INCREMENT;not null" binding:"required"`
+	ZhwId         int     `json:"zhw_id" gorm:"column:zhw_id;not null" binding:"required"`
+	ZhwUsername   string  `json:"zhw_username" gorm:"column:zhw_username;not null" binding:"required"`
+	Phone         string  `json:"phone" gorm:"column:phone;not null" binding:"required"`
+	Avatar        string  `json:"avatar" gorm:"column:avatar;not null" binding:"required"`
+	Nickname      string  `json:"nickname" gorm:"column:nickname;not null" binding:"required"`
+	FollowDynamic []Dynamic `gorm:"many2many:app_dynamic_follow;association_jointable_foreignkey:dynamic_id;jointable_foreignkey:user_id;" json:"follow_dynamic"`
+	Dynamic       Dynamic `json:"user" gorm:"ForeignKey:user_id" `
+}
+
+// TableName 表名
+func (Brief) TableName() string {
+	return user.TableName
 }
 
 // TableName 表名

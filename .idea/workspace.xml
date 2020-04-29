@@ -3,41 +3,15 @@
   <component name="ChangeListManager">
     <list default="true" id="e3151fba-e9e9-4aad-a916-8aca86b917eb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/auth/session.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/auth/session.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/auth/token/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/auth/token/user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/api/authorization/resource.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/api/authorization/resource.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/controllers/api/dynamic/resource.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/api/dynamic/resource.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/api/notification/stats.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/api/notification/stats.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/api/topic/resource.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/api/topic/resource.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/api/topic/utils__.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/api/topic/utils__.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/auth/verification/verification.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/auth/verification/verification.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/helpers/last_actived.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/helpers/last_actived.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/helpers/mail.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/helpers/mail.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/models/dynamic/dynamic.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/dynamic/dynamic.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/reply/notify.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/reply/notify.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/reply/reply.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/reply/reply.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/models.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/models.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/system/get.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/system/get.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/models/system/menu.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/system/menu.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/topic/get.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/topic/get.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/models/topic/topic.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/topic/topic.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/user/effect.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/user/effect.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/user/get.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/user/get.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/models/user/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/user/user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/policies/reply.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/policies/reply.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/requests/api/image/image.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/requests/api/image/image.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/requests/api/topic/store.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/requests/api/topic/store.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/requests/api/topic/update.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/requests/api/topic/update.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/requests/api/user/edit.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/requests/api/user/edit.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/requests/api/user/register.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/requests/api/user/register.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/requests/user/create.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/requests/user/create.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/requests/user/update.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/requests/user/update.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/services/topic_list.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/services/topic_list.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/viewmodels/topic.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/viewmodels/topic.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/viewmodels/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/viewmodels/user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/factory/topic.go" beforeDir="false" afterPath="$PROJECT_DIR$/database/factory/topic.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/factory/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/database/factory/user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/middleware/token.go" beforeDir="false" afterPath="$PROJECT_DIR$/routes/middleware/token.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,7 +42,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/routes/middleware" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../gin_weibo" />
     <property name="settings.editor.selected.configurable" value="go.vgo" />
   </component>
   <component name="RecentsManager">
@@ -91,10 +65,10 @@
     <proxy>https://goproxy.io</proxy>
   </component>
   <component name="WindowStateProjectService">
-    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1587996467330">
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1588170149698">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1587996467330" />
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1588170149698" />
     <state x="461" y="162" key="SettingsEditor" timestamp="1587795789953">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -103,9 +77,9 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="753" y="170" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1587911839528" />
-    <state x="567" y="220" width="786" height="600" key="find.popup" timestamp="1588093818782">
+    <state x="567" y="220" width="786" height="600" key="find.popup" timestamp="1588180778478">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="567" y="220" width="786" height="600" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1588093818782" />
+    <state x="567" y="220" width="786" height="600" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1588180778478" />
   </component>
 </project>
