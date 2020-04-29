@@ -35,7 +35,7 @@ func newDBConfig() *dbConfig {
 	port := viper.GetInt("DB.PORT")
 
 	database := viper.GetString("DB.DATABASE")
-	database = database + "_" + AppConfig.RunMode
+	//database = database + "_" + AppConfig.RunMode
 
 	url := createDBURL(username, password, host, port, database)
 

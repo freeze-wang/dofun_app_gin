@@ -1,7 +1,7 @@
 package csrf
 
 import (
-	"gin_bbs/pkg/ginutils"
+	"dofun/pkg/ginutils"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

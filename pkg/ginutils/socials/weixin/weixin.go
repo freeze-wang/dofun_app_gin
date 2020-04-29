@@ -3,7 +3,7 @@ package weixin
 import (
 	"errors"
 	"fmt"
-	"gin_bbs/pkg/ginutils/utils"
+	"dofun/pkg/ginutils/utils"
 
 	"encoding/json"
 

@@ -35,7 +35,6 @@ func (u *User) Notification(count int) (err error) {
 	}).Error; err != nil {
 		return err
 	}
-	u.NotificationCount = 0
 
 	setToCache(u)
 	return nil
@@ -44,7 +43,7 @@ func (u *User) Notification(count int) (err error) {
 // Delete -
 func Delete(id int) (err error) {
 	user := &User{}
-	user.BaseModel.ID = uint(id)
+	user.ID = uint(id)
 
 	// Unscoped: 永久删除而不是软删除 (由于该操作是管理员操作的，所以不使用软删除)
 	if err = database.DB.Unscoped().Delete(&user).Error; err != nil {

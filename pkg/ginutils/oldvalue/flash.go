@@ -1,7 +1,7 @@
 package oldvalue
 
 import (
-	"gin_bbs/pkg/ginutils/flash"
+	"dofun/pkg/ginutils/flash"
 
 	"github.com/gin-gonic/gin"
 )

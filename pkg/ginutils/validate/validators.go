@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	"gin_bbs/pkg/mimetype"
+	"dofun/pkg/mimetype"
 )
 
 var (

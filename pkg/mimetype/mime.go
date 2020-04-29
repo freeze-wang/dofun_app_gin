@@ -6,7 +6,7 @@ import (
 	"io"
 	"os"
 
-	"gin_bbs/pkg/mimetype/internal/matchers"
+	"dofun/pkg/mimetype/internal/matchers"
 )
 
 // Detect returns the MIME type and extension of the provided byte slice.

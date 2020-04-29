@@ -1,6 +1,6 @@
 package mimetype
 
-import "gin_bbs/pkg/mimetype/internal/matchers"
+import "dofun/pkg/mimetype/internal/matchers"
 
 // root is a matcher which passes for any slice of bytes.
 // When a matcher passes the check, the children matchers

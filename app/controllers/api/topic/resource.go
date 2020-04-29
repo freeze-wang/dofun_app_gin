@@ -104,7 +104,7 @@ func Destroy(c *gin.Context, currentUser *userModel.User, tokenString string) {
 	}
 
 	// 权限
-	if ok := policies.TopicPolicyOwner(c, currentUser, int(topic.UserID)); !ok {
+	if ok := policies.TopicPolicyOwner(c, currentUser, int(topic.ID)); !ok {
 		return
 	}
 

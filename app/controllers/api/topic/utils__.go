@@ -27,7 +27,7 @@ func getTopic(c *gin.Context, currentUser *userModel.User) (*topicModel.Topic, i
 
 	// 权限
 	if currentUser != nil {
-		if ok := policies.TopicPolicyOwner(c, currentUser, int(topic.UserID)); !ok {
+		if ok := policies.TopicPolicyOwner(c, currentUser, int(topic.ID)); !ok {
 			return nil, id, false
 		}
 	}

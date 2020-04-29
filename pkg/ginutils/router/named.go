@@ -2,8 +2,8 @@ package router
 
 import (
 	"fmt"
-	"gin_bbs/pkg/ginutils"
-	"gin_bbs/pkg/ginutils/utils"
+	"dofun/pkg/ginutils"
+	"dofun/pkg/ginutils/utils"
 	"os"
 	"regexp"
 	"strconv"

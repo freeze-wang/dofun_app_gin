@@ -1,7 +1,6 @@
 package user
 
 import (
-	"dofun/app/models"
 	"dofun/database"
 )
 
@@ -56,15 +55,15 @@ func GetByActivationToken(token string) (*User, error) {
 	return user, d.Error
 }
 
-// GetByRememberToken -
-func GetByRememberToken(token string) (*User, error) {
+// GetByLastToken -
+func GetByLastToken(token string) (*User, error) {
 	user := &User{}
 	d := database.DB.Where("remember_token = ?", token).First(&user)
 	return user, d.Error
 }
 
-// GetByWeixinUnionID -
-func GetByWeixinUnionID(unionid string) (*User, error) {
+// GetByWeixinUnionid -
+func GetByWeixinUnionid(unionid string) (*User, error) {
 	user := &User{}
 	d := database.DB.Where("weixin_unionid = ?", unionid).First(&user)
 	return user, d.Error
@@ -122,5 +121,5 @@ func AllCount() (count int, err error) {
 
 // IsActivated 是否已激活
 func (u *User) IsActivated() bool {
-	return u.Activated == models.TrueTinyint
+	return true
 }

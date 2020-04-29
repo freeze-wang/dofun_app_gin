@@ -46,7 +46,7 @@ func SocialStore(c *gin.Context) {
 	switch req.SocialType {
 	case "weixin":
 		if weixinUserInfo.Unionid != "" {
-			user, err = userModel.GetByWeixinUnionID(weixinUserInfo.Unionid)
+			user, err = userModel.GetByWeixinUnionid(weixinUserInfo.Unionid)
 		} else {
 			user, err = userModel.GetByWeixinOpenID(weixinUserInfo.OpenID)
 		}
@@ -54,12 +54,12 @@ func SocialStore(c *gin.Context) {
 		if err != nil || user == nil {
 			// 没有用户，默认创建一个用户
 			user = &userModel.User{
-				Name:         weixinUserInfo.NickName,
+				Nickname:         weixinUserInfo.NickName,
 				Avatar:       weixinUserInfo.HeadImgURL,
-				WeixinOpenID: weixinUserInfo.OpenID,
+				WeixinUnionid: weixinUserInfo.OpenID,
 			}
 			if weixinUserInfo.Unionid != "" {
-				user.WeixinUnionID = weixinUserInfo.Unionid
+				user.WeixinUnionid = weixinUserInfo.Unionid
 			}
 
 			if err := user.Create(); err != nil {

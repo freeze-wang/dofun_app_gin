@@ -3,7 +3,7 @@ package validate
 import (
 	"strings"
 
-	"gin_bbs/pkg/ginutils/flash"
+	"dofun/pkg/ginutils/flash"
 
 	"encoding/json"
 

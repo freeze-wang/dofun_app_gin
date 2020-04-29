@@ -2,7 +2,6 @@ package config
 
 import (
 	"fmt"
-
 	"github.com/lexkong/log"
 
 	"github.com/fsnotify/fsnotify"
@@ -59,6 +58,7 @@ func InitConfig(c string, hasLog bool) {
 	DBConfig = newDBConfig()
 	// 初始化邮件配置
 	MailConfig = newMailConfig()
+
 }
 
 // 监控配置文件变化
@@ -69,3 +69,4 @@ func watchConfig() {
 		log.Infof("Config file changed: %s", ev.Name)
 	})
 }
+

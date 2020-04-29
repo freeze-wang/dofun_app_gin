@@ -1,7 +1,7 @@
 package file
 
 import (
-	"gin_bbs/pkg/ginutils/utils"
+	"dofun/pkg/ginutils/utils"
 	"mime/multipart"
 	"path"
 	"strconv"
