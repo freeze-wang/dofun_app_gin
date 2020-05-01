@@ -41,7 +41,7 @@ func Index(c *gin.Context) {
 	case SystemMenu.MENU_TYPE_DEFAULT:
 		data, _ = SystemMenu.GetRecommendDynamic(c, menu)
 	case SystemMenu.MENU_TYPE_FOLLOW:
-		if data, _ = SystemMenu.GetFollowDynamic(c); data == nil {
+		if data, _ = SystemMenu.GetFollowDynamic(c,menu); data == nil {
 			return
 		}
 	case SystemMenu.MENU_TYPE_MATCH:

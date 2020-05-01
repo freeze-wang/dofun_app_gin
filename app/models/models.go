@@ -2,7 +2,9 @@ package models
 
 import (
 	"database/sql/driver"
+	"dofun/pkg/ginutils/pagination"
 	"fmt"
+	"github.com/gin-gonic/gin"
 	"strconv"
 	"time"
 )
@@ -13,6 +15,16 @@ const (
 	// FalseTinyint false
 	FalseTinyint = 0
 )
+
+// ListData 带列表时的 data
+type ListData struct {
+	Page      int         `json:"page,omitempty"`      // 当前页数
+	PageLine  int         `json:"per_page,omitempty"`  // 每页条数
+	Total     int         `json:"total"`               // 总数
+	Data      interface{} `json:"data"`                // 列表数据 (无数据时，默认返回一个 [])
+	TotalPage interface{} `json:"totalPage,omitempty"` // 其他数据 (可选)
+}
+
 type Time struct { // 内嵌方式（推荐）
 	time.Time
 }
@@ -41,6 +53,7 @@ func (t *Time) Scan(v interface{}) error {
 	}
 	return fmt.Errorf("can not convert %v to timestamp", v)
 }
+
 // BaseModel model 基类
 type BaseModel struct {
 	ID uint `gorm:"column:id;primary_key;AUTO_INCREMENT;not null"`
@@ -54,4 +67,25 @@ type BaseModel struct {
 // GetIDstring 获取字符串形式的 id
 func (m *BaseModel) GetIDstring() string {
 	return strconv.Itoa(int(m.ID))
+}
+
+// Paginate 分页数据
+func Paginate(c *gin.Context,
+	returnDataFunc func(int, int) interface{},
+	totalCount int, defaultPageLine int) ListData {
+
+	// 从 request query 中获取分页参数
+	offset, limit, currentPage, totalPage := pagination.GetPageQuery(c, defaultPageLine, totalCount)
+
+	// 得到列表数据
+	items := returnDataFunc(offset, limit)
+
+	listData := ListData{
+		Page:      currentPage,
+		PageLine:  pagination.GetPageLine(c, defaultPageLine),
+		Total:     totalCount,
+		TotalPage: totalPage,
+		Data:      items,
+	}
+	return listData
 }

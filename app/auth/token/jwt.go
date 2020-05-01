@@ -1,11 +1,15 @@
 package token
 
 import (
+	"crypto/sha1"
 	"dofun/app/cache"
 	userModel "dofun/app/models/user"
 	"dofun/config"
 	"dofun/pkg/errno"
+	"fmt"
+	"io/ioutil"
 	"log"
+	"strconv"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -14,7 +18,7 @@ import (
 const (
 	cacheTokenKeyName   = "jwt_token_"
 	jwtTokenRefreshTime = 20160 * time.Minute // 允许刷新 token 的时间 (14 天); 期间内允许使用之前颁发的 token (即使过期)来获取新token
-	jwtTokenExpiredTime = 60 * time.Minute    // token 60 分钟过期
+	jwtTokenExpiredTime = 360 * time.Minute    // token 360 分钟过期
 	jwtTokenRemainTime  = 2 * time.Minute     // token 刷新后，旧的 token 还有 2 分钟的使用时间 (前提是旧 token 没过过期时间)
 )
 
@@ -25,6 +29,7 @@ func getCacheKey(tokenString string) string {
 // CustomClaims -
 type CustomClaims struct {
 	jwt.StandardClaims
+	Prv  string  `json:"prv,omitempty"`
 	UserID      uint  `json:"userid"`
 	RefreshTime int64 `json:"refresh_time,omitempty"`
 }
@@ -32,6 +37,7 @@ type CustomClaims struct {
 // SetUser 设置 token 有效期
 func (c *CustomClaims) SetUser(u *userModel.User) {
 	c.UserID = u.ID
+	c.Subject = strconv.Itoa(int(u.ID))
 }
 
 // SetExpiredAt 设置 user data
@@ -40,8 +46,21 @@ func (c *CustomClaims) SetExpiredAt() {
 	c.IssuedAt = now.Unix()
 	c.ExpiresAt = now.Add(jwtTokenExpiredTime).Unix()
 	c.RefreshTime = now.Add(jwtTokenRefreshTime).Unix()
+	c.Prv = GetSHA1("App\\Models\\V1\\User\\User")
 }
-
+/*
+Get the sha1 of  content.
+If success, return the sha1 hex string.
+If fail, return "".
+*/
+func GetSHA1(filename string) string {
+	data, err := ioutil.ReadFile(filename)
+	if err != nil {
+		return ""
+	}
+	b := sha1.Sum(data)
+	return fmt.Sprintf("%X", b)
+}
 // create 创建 token
 func create(u *userModel.User) (string, CustomClaims, error) {
 	claims := CustomClaims{}

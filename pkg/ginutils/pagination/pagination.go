@@ -10,8 +10,8 @@ import (
 const (
 	// PageQueryName query 中 page 参数命名
 	PageQueryName = "page"
-	// PageLineQueryName query 中 pageline 参数命名
-	PageLineQueryName = "pageline"
+	// PageLineQueryName query 中 pageSize 参数命名
+	PageLineQueryName = "pageSize"
 	// DefaultPageDataKeyName render data key name
 	DefaultPageDataKeyName = "pagination"
 )

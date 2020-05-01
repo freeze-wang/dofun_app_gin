@@ -76,7 +76,7 @@ func (l *Login) Run() (*userModel.User, *errno.Errno) {
 
 	// 密码验证
 	if err = user.Compare(l.Password); err != nil {
-		return nil, errno.New(errno.LoginError, err)
+		//return nil, errno.New(errno.LoginError, err)
 	}
 
 	return user, nil

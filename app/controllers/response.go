@@ -8,9 +8,13 @@ import (
 
 	"github.com/gin-gonic/gin"
 )
-
+const (
+	StatusSuccess = 1
+	StatusFailed = 0
+)
 // Response 标准响应数据
 type Response struct {
+	Status  int    `json:"status"`    // 状态
 	Code    int    `json:"code"`    // 自定义的异常码
 	Message string `json:"message"` // 错误描述
 	// 具体错误信息
@@ -52,6 +56,9 @@ func SendResponse(c *gin.Context, err error, data interface{}) {
 
 	if errors != nil {
 		r.Errors = errors
+		r.Status = StatusFailed
+	}else {
+		r.Status = StatusSuccess
 	}
 
 	c.JSON(http.StatusOK, r)

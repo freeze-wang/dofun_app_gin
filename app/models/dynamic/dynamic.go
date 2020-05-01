@@ -17,6 +17,13 @@ var (
 	dynamicCache = cache.New(10*time.Minute, 30*time.Minute)
 )
 
+const (
+	STATUS_DISABLE = 0
+	STATUS_ABLE = 1
+	DELEET_STATUS_DEFAULT = 0
+	DELETE_STATUS_USER_OPERATE = 1
+	DELETE_STATUS_ADMIN_OPERATE = 2
+)
 // Dynamic 动态
 type Dynamic struct {
 	ID             int         `json:"id" gorm:"column:id;primary_key;AUTO_INCREMENT;not null" binding:"required"`
@@ -40,10 +47,20 @@ type Dynamic struct {
 	HotAt          models.Time `json:"hot_at" gorm:"column:hot_at;not null" binding:"required"`
 	CreatedAt      models.Time `json:"created_at" gorm:"column:created_at;not null" binding:"required"`
 	UpdatedAt      models.Time `json:"updated_at" gorm:"column:updated_at;not null" binding:"required"`
-	User           user.User   `json:"user" gorm:"ForeignKey:user_id"`
+	User           Brief   `json:"user" gorm:"ForeignKey:user_id"`
 	Topic          topic.Topic `json:"topic" gorm:"ForeignKey:topic_id"`
+	AppTopicDynamicDetail []AppTopicDynamicDetail	`json:"detail" gorm:"foreignkey:dynamic_id"`
 }
+// 动态媒体内容表
+type AppTopicDynamicDetail struct {
+	Id              int32  `json:"id" gorm:"id"`
+	DynamicId       int32  `json:"dynamic_id" gorm:"dynamic_id"`               // 动态id
+	MediaType       string `json:"media_type" gorm:"media_type"`               // 内容媒体类型
+	MediaUrl        string `json:"media_url" gorm:"media_url"`                 // 内容链接
+	MediaTimeLength string `json:"media_time_length" gorm:"media_time_length"` // 媒体播放时长
+	CoverImgUrl     string `json:"cover_img_url" gorm:"cover_img_url"`         // 封面图片地址
 
+}
 // User 简略版用户模型
 type Brief struct {
 	ID            uint    `json:"id" gorm:"column:id;primary_key;AUTO_INCREMENT;not null" binding:"required"`
@@ -53,7 +70,7 @@ type Brief struct {
 	Avatar        string  `json:"avatar" gorm:"column:avatar;not null" binding:"required"`
 	Nickname      string  `json:"nickname" gorm:"column:nickname;not null" binding:"required"`
 	FollowDynamic []Dynamic `gorm:"many2many:app_dynamic_follow;association_jointable_foreignkey:dynamic_id;jointable_foreignkey:user_id;" json:"follow_dynamic"`
-	Dynamic       Dynamic `json:"user" gorm:"ForeignKey:user_id" `
+	//Dynamic       Dynamic `json:"user" gorm:"ForeignKey:user_id" `
 }
 
 // TableName 表名
@@ -64,6 +81,10 @@ func (Brief) TableName() string {
 // TableName 表名
 func (Dynamic) TableName() string {
 	return "app_topic_dynamic"
+}
+// TableName 表名
+func (AppTopicDynamicDetail) TableName() string {
+	return "app_topic_dynamic_detail"
 }
 
 // BeforeSave - hook
