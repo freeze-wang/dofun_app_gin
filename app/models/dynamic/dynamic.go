@@ -47,8 +47,8 @@ type Dynamic struct {
 	HotAt          models.Time `json:"hot_at" gorm:"column:hot_at;not null" binding:"required"`
 	CreatedAt      models.Time `json:"created_at" gorm:"column:created_at;not null" binding:"required"`
 	UpdatedAt      models.Time `json:"updated_at" gorm:"column:updated_at;not null" binding:"required"`
-	User           Brief   `json:"user" gorm:"ForeignKey:user_id"`
-	Topic          topic.Topic `json:"topic" gorm:"ForeignKey:topic_id"`
+	User           *Brief   `json:"user" gorm:"ForeignKey:user_id"`
+	Topic          *topic.Topic `json:"topic" gorm:"ForeignKey:topic_id"`
 	AppTopicDynamicDetail []AppTopicDynamicDetail	`json:"detail" gorm:"foreignkey:dynamic_id"`
 }
 // 动态媒体内容表

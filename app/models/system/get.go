@@ -46,24 +46,26 @@ func GetTopic(c *gin.Context) (interface{}, bool) {
 }
 func GetRecommendDynamic(c *gin.Context, menu *Menu) (interface{}, bool) {
 	data := make(map[string]interface{})
-	dynamics := make([]*dynamic.Dynamic, 0)
 	banners := make([]*Banner, 0)
 	//user := token.User(c)
-
-	database.DB.Model(menu).Preload("Topic", func(db *gorm.DB) *gorm.DB {
-		return db.Select("id,topic_name,topic_type")
-	}).Preload("User").Related(&dynamics, "dynamic")
+	count := database.DB.Model(menu).Association("dynamic").Count()
+	listData := models.Paginate(c, func(offset int, limit int) interface{} {
+		dynamics := make([]*dynamic.Dynamic, 0)
+		database.DB.Model(menu).Preload("Topic", func(db *gorm.DB) *gorm.DB {
+			return db.Select("id,topic_name,topic_type")
+		}).Preload("User").Related(&dynamics, "dynamic")
+		return dynamics
+	}, count, 10)
 
 	database.DB.Model(menu).Where("bannerable_type = ? and status = ? ", "App\\Models\\V1\\System\\Menu", 1).Limit(5).Order("weight DESC").Related(&banners, "banner")
 	data["type"] = menu.MenuType
 	data["banner"] = banners
-	data["list"] = dynamics
+	data["list"] = listData
 	return data, true
 }
 
 func GetFollowDynamic(c *gin.Context, menu *Menu) (interface{}, bool) {
 	data := make(map[string]interface{})
-	var count int
 	brief := &dynamic.Brief{}
 	user := token.User(c)
 	if user == nil {
@@ -73,20 +75,26 @@ func GetFollowDynamic(c *gin.Context, menu *Menu) (interface{}, bool) {
 	if err := database.DB.First(&brief, user.ID).Error; err != nil {
 		return nil, false
 	}
-	count = database.DB.Model(brief).Association("follow_dynamic").Count()
+	count := database.DB.Model(brief).Association("follow_dynamic").Count()
 	listData := models.Paginate(c, func(offset int, limit int) interface{} {
 		list := make([]*dynamic.Dynamic, 0)
 		var topicIds []string
-		var dyn *dynamic.Dynamic
-		database.DB.Table("app_topic_follow").Where("user_id = ? ", brief.ID).Pluck("topic_id", &topicIds)
+		if err := database.DB.Table("app_topic_follow").Where("user_id = ? ", brief.ID).Pluck("topic_id", &topicIds).Error; err != nil {
+			return nil
+		}
 
 		//database.DB.Model(brief).Offset(offset).Limit(limit).Where("status = ? and delete_status = ?",dynamic.STATUS_ABLE,dynamic.DELEET_STATUS_DEFAULT).Preload("User").Preload("Topic").Preload("AppTopicDynamicDetail").Related(&list, "follow_dynamic").Find(&list)
-		//关注的动态和关注话题相关的动态都要显示
-		database.DB.Model(dyn).Offset(offset).Limit(limit).Where("status = ? and delete_status = ? AND (EXISTS(SELECT * FROM app_dynamic_follow WHERE `app_dynamic_follow`.`user_id`  IN (?) AND app_topic_dynamic.id = app_dynamic_follow.`dynamic_id`) OR topic_id IN (?)) ", dynamic.STATUS_ABLE, dynamic.DELEET_STATUS_DEFAULT,brief.ID,strings.Join(topicIds,",")).Preload("User").Preload("Topic").Preload("AppTopicDynamicDetail").Find(&list)
+		database.DB.Table("app_topic_dynamic").Offset(offset).Limit(limit).Where("status = ? and delete_status = ?",
+			dynamic.STATUS_ABLE,
+			dynamic.DELEET_STATUS_DEFAULT).Joins("left join app_dynamic_follow on app_topic_dynamic.id = app_dynamic_follow.`dynamic_id` and (app_topic_dynamic.user_id = ? OR topic_id IN (?))",
+			brief.ID,
+			strings.Join(topicIds, ",")).Preload("User").Preload("Topic").Preload("AppTopicDynamicDetail").Find(&list)
 
 		return list
 	}, count, 10)
 
+	/*	b, _ :=json.Marshal(listData)
+		log.Print(string(b))*/
 	data["type"] = menu.MenuType
 	data["list"] = listData
 
