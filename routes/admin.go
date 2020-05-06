@@ -1,11 +1,11 @@
 package routes
 
 import (
-	"dofun/app/controllers"
+	"dofun/app/http/controllers"
 	"dofun/pkg/ginutils/router"
 
-	"fmt"
 	ginfile "dofun/pkg/ginutils/file"
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

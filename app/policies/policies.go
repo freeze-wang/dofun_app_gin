@@ -1,7 +1,7 @@
 package policies
 
 import (
-	"dofun/app/controllers"
+	"dofun/app/http/controllers"
 	permissionModel "dofun/app/models/permission"
 	userModel "dofun/app/models/user"
 	"dofun/pkg/constants"

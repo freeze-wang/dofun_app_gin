@@ -9,12 +9,12 @@ import (
 	"dofun/pkg/ginutils/oldvalue"
 	"dofun/pkg/ginutils/session"
 
+	"dofun/app/http/middleware"
 	"dofun/pkg/constants"
 	"dofun/pkg/errno"
 	"dofun/pkg/ginutils/router"
-	"dofun/routes/middleware"
 
-	"dofun/app/controllers"
+	"dofun/app/http/controllers"
 	"dofun/config"
 
 	"github.com/gin-gonic/gin"

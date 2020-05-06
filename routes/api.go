@@ -1,22 +1,22 @@
 package routes
 
 import (
+	"dofun/app/http/middleware"
 	"dofun/pkg/ginutils/router"
-	"dofun/routes/middleware"
 	"dofun/routes/wrapper"
 	"time"
 
-	"dofun/app/controllers/api/authorization"
-	"dofun/app/controllers/api/captcha"
-	"dofun/app/controllers/api/category"
-	"dofun/app/controllers/api/image"
-	"dofun/app/controllers/api/link"
-	"dofun/app/controllers/api/notification"
-	"dofun/app/controllers/api/permission"
-	"dofun/app/controllers/api/reply"
-	"dofun/app/controllers/api/topic"
-	"dofun/app/controllers/api/user"
-	vericode "dofun/app/controllers/api/verification_code"
+	"dofun/app/http/controllers/api/authorization"
+	"dofun/app/http/controllers/api/captcha"
+	"dofun/app/http/controllers/api/category"
+	"dofun/app/http/controllers/api/image"
+	"dofun/app/http/controllers/api/link"
+	"dofun/app/http/controllers/api/notification"
+	"dofun/app/http/controllers/api/permission"
+	"dofun/app/http/controllers/api/reply"
+	"dofun/app/http/controllers/api/topic"
+	"dofun/app/http/controllers/api/user"
+	vericode "dofun/app/http/controllers/api/verification_code"
 
 	"github.com/gin-gonic/gin"
 )

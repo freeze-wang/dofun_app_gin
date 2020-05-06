@@ -1,17 +1,17 @@
 package routes
 
 import (
-	"dofun/app/controllers/api/topic"
+	"dofun/app/http/controllers/api/topic"
+	"dofun/app/http/middleware"
 	"dofun/pkg/ginutils/captcha"
 	"dofun/pkg/ginutils/router"
-	"dofun/routes/middleware"
 	"dofun/routes/wrapper"
 
 	// "dofun/app/controllers/page"
-	"dofun/app/controllers/auth/login"
-	"dofun/app/controllers/auth/password"
-	"dofun/app/controllers/auth/register"
-	"dofun/app/controllers/auth/verification"
+	"dofun/app/http/controllers/auth/login"
+	"dofun/app/http/controllers/auth/password"
+	"dofun/app/http/controllers/auth/register"
+	"dofun/app/http/controllers/auth/verification"
 
 	"time"
 

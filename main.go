@@ -1,12 +1,12 @@
 package main
 
 import (
-	"dofun/app/controllers/api/authorization"
-	"dofun/app/controllers/api/dynamic"
+	"dofun/app/http/controllers/api/authorization"
+	"dofun/app/http/controllers/api/dynamic"
+	"dofun/app/http/middleware"
 	"dofun/bootstrap"
 	"dofun/config"
 	"dofun/database"
-	"dofun/routes/middleware"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/pflag"
 )
@@ -34,10 +34,10 @@ func setupRouter() *gin.Engine {
 	}*/
 	v1 := r.Group("api/v1/").Use(middleware.TokenRefresh())
 	{
-		v1.GET("index/dynamic/:id",dynamic.Index)
-		v1.GET("dynamic/detail/:id",dynamic.Detail)
+		v1.GET("index/dynamic/:id", dynamic.Index)
+		v1.GET("dynamic/detail/:id", dynamic.Detail)
 	}
-	r.POST("/login",authorization.Store)
+	r.POST("/login", authorization.Store)
 
 	/*server := endless.NewServer(config.AppConfig.Addr, r)
 	server.BeforeBegin = func(add string) {

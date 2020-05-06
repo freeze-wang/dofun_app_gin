@@ -2,7 +2,7 @@ package wrapper
 
 import (
 	"dofun/app/auth/token"
-	"dofun/app/controllers"
+	"dofun/app/http/controllers"
 	userModel "dofun/app/models/user"
 	"dofun/pkg/errno"
 
