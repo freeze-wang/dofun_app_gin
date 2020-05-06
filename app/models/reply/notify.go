@@ -6,7 +6,7 @@ import (
 	topicModel "dofun/app/models/topic"
 	userModel "dofun/app/models/user"
 	"strconv"
-	// "dofun/app/helpers"
+	// "dofun/app/handlers"
 )
 
 // TopicRepliedNotify 发送一条消息给 topic 作者 (告知其有新回复了)
@@ -30,7 +30,7 @@ func TopicRepliedNotify(reply *Reply, currentUser *userModel.User) error {
 
 	// 发送通知邮件 (暂时关闭)
 	// go func() {
-	// 	helpers.SendMail([]string{topicAuthor.Email},
+	// 	handlers.SendMail([]string{topicAuthor.Email},
 	// 		"Topic Replied",
 	// 		"mail/notifications/topic_replied.html",
 	// 		map[string]interface{}{	"URL": data["topic_link"]})

@@ -1,10 +1,10 @@
 package auth
 
 import (
-	"errors"
 	userModel "dofun/app/models/user"
 	"dofun/config"
 	"dofun/pkg/ginutils"
+	"errors"
 
 	"github.com/gin-gonic/gin"
 )

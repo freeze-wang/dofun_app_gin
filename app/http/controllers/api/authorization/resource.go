@@ -1,8 +1,8 @@
 package authorization
 
 import (
-	"dofun/app/auth/token"
 	"dofun/app/http/controllers"
+	"dofun/app/http/controllers/auth/token"
 	authorizationRequest "dofun/app/http/requests/api/authorization"
 	userModel "dofun/app/models/user"
 	"dofun/app/viewmodels"

@@ -1,9 +1,9 @@
 package middleware
 
 import (
-	"dofun/app/auth"
-	"dofun/app/helpers"
+	"dofun/app/handlers"
 	"dofun/app/http/controllers"
+	auth2 "dofun/app/http/controllers/auth"
 
 	"strings"
 
@@ -18,9 +18,9 @@ var whitePathList = [...]string{
 // CurrentUserMiddleware : 从 session 中获取 user model 的 middleware
 func CurrentUserMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		user := auth.SaveCurrentUserToContext(c)
+		user := auth2.SaveCurrentUserToContext(c)
 		if user != nil {
-			helpers.RecordLastActivedAt(user)
+			handlers.RecordLastActivedAt(user)
 		}
 
 		// 如果用户已经登录，并且未有耨恒 email

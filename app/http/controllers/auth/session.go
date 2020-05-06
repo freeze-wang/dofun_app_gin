@@ -1,11 +1,11 @@
 package auth
 
 import (
-	"errors"
 	userModel "dofun/app/models/user"
 	"dofun/config"
 	"dofun/pkg/ginutils/session"
 	"dofun/pkg/ginutils/utils"
+	"errors"
 	"net/url"
 	"strconv"
 

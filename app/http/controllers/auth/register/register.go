@@ -1,14 +1,14 @@
 package register
 
 import (
-	"dofun/app/auth"
 	"dofun/app/http/controllers"
+	auth2 "dofun/app/http/controllers/auth"
 	userRequest "dofun/app/http/requests/user"
 
 	"dofun/pkg/ginutils/captcha"
 	"dofun/pkg/ginutils/flash"
 
-	"dofun/app/helpers"
+	"dofun/app/handlers"
 
 	"github.com/gin-gonic/gin"
 )
@@ -40,8 +40,8 @@ func Register(c *gin.Context) {
 		return
 	}
 
-	auth.Login(c, user)
-	if err := helpers.SendVerifyEmail(user); err != nil {
+	auth2.Login(c, user)
+	if err := handlers.SendVerifyEmail(user); err != nil {
 		flash.NewDangerFlash(c, "邮件发送失败: "+err.Error())
 	} else {
 		flash.NewSuccessFlash(c, "新的验证链接已发送到您的 E-mail")

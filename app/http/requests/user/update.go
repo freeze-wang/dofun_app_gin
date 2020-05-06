@@ -1,7 +1,7 @@
 package user
 
 import (
-	"dofun/app/helpers"
+	"dofun/app/handlers"
 	"dofun/app/http/requests"
 	userModel "dofun/app/models/user"
 	"dofun/pkg/constants"
@@ -85,7 +85,7 @@ func (u *UserUpdateForm) ValidateAndUpdate(c *gin.Context, user *userModel.User)
 	user.Sign = u.Introduction
 	// 如果有上传用户头像
 	if u.Avatar != nil {
-		avatarPath, err := helpers.SaveImage(u.Avatar, "avatars", strconv.Itoa(int(user.ID)), 416)
+		avatarPath, err := handlers.SaveImage(u.Avatar, "avatars", strconv.Itoa(int(user.ID)), 416)
 		if err != nil {
 			validate.AddMessageAndSaveToFlash(c, "avatar", "头像上传失败: "+err.Error(), errArr, errMap)
 			return false

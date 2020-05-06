@@ -1,4 +1,4 @@
-package helpers
+package handlers
 
 import (
 	"dofun/config"
@@ -6,7 +6,6 @@ import (
 	"dofun/pkg/ginutils/router"
 	"path"
 
-	passwordResetModel "dofun/app/models/password_reset"
 	userModel "dofun/app/models/user"
 
 	"github.com/flosch/pongo2"
@@ -46,11 +45,3 @@ func SendVerifyEmail(u *userModel.User) error {
 	return SendMail([]string{u.Email}, subject, tpl, map[string]interface{}{"URL": verifyURL})
 }
 
-// SendResetPasswordEmail 发送重置密码邮件
-func SendResetPasswordEmail(pwd *passwordResetModel.PasswordReset) error {
-	subject := "重置密码！请确认你的邮箱。"
-	tpl := "mail/reset_password.html"
-	resetPasswordURL := router.G("password.reset", "token", pwd.Token)
-
-	return SendMail([]string{pwd.Email}, subject, tpl, map[string]interface{}{"URL": resetPasswordURL})
-}

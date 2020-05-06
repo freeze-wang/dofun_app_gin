@@ -1,8 +1,8 @@
 package login
 
 import (
-	"dofun/app/auth"
 	"dofun/app/http/controllers"
+	auth2 "dofun/app/http/controllers/auth"
 	"dofun/pkg/ginutils/flash"
 
 	userRequest "dofun/app/http/requests/user"
@@ -29,13 +29,13 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	auth.Login(c, user)
+	auth2.Login(c, user)
 	controllers.RedirectRouter(c, "root")
 }
 
 // 登出
 func Logout(c *gin.Context) {
-	auth.Logout(c)
+	auth2.Logout(c)
 	flash.NewSuccessFlash(c, "您已成功退出！")
 	controllers.RedirectRouter(c, "login")
 }

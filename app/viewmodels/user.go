@@ -1,7 +1,7 @@
 package viewmodels
 
 import (
-	"dofun/app/helpers"
+	"dofun/app/handlers"
 	permissionModel "dofun/app/models/permission"
 	userModel "dofun/app/models/user"
 	"dofun/pkg/constants"
@@ -30,7 +30,7 @@ func NewUserViewModelSerializer(u *userModel.User) *UserViewModel {
 		Introduction:      u.Sign,
 		CreatedAt:         gintime.SinceForHuman(u.CreatedAt.Time),
 	}
-	t := helpers.GetUserActivedLastActivedAt(u)
+	t := handlers.GetUserActivedLastActivedAt(u)
 	if t != nil {
 		data.LastActivedAt = gintime.SinceForHuman(*t)
 	}
@@ -52,7 +52,7 @@ func NewUserAPISerializer(u *userModel.User) map[string]interface{} {
 		"updated_at":   u.UpdatedAt.Format(constants.DateTimeLayout),
 	}
 
-	t := helpers.GetUserActivedLastActivedAt(u)
+	t := handlers.GetUserActivedLastActivedAt(u)
 	if t != nil {
 		r["last_actived_at"] = t.Format(constants.DateTimeLayout)
 	}

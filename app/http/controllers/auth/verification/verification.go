@@ -1,9 +1,9 @@
 package verification
 
 import (
-	"dofun/app/auth"
-	"dofun/app/helpers"
+	"dofun/app/handlers"
 	"dofun/app/http/controllers"
+	auth2 "dofun/app/http/controllers/auth"
 	userModel "dofun/app/models/user"
 	"dofun/pkg/ginutils/flash"
 
@@ -36,7 +36,7 @@ func Verify(c *gin.Context) {
 		return
 	}
 
-	auth.Login(c, user)
+	auth2.Login(c, user)
 	flash.NewSuccessFlash(c, "邮箱验证成功 ^_^")
 	controllers.RedirectRouter(c, "root")
 }
@@ -48,7 +48,7 @@ func Resend(c *gin.Context, currentUser *userModel.User) {
 		return
 	}
 
-	if err := helpers.SendVerifyEmail(currentUser); err != nil {
+	if err := handlers.SendVerifyEmail(currentUser); err != nil {
 		flash.NewDangerFlash(c, "邮件发送失败: "+err.Error())
 	} else {
 		flash.NewSuccessFlash(c, "新的验证链接已发送到您的 E-mail")

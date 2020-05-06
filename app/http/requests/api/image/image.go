@@ -1,7 +1,7 @@
 package image
 
 import (
-	"dofun/app/helpers"
+	"dofun/app/handlers"
 	imageModel "dofun/app/models/image"
 	userModel "dofun/app/models/user"
 	"dofun/pkg/constants"
@@ -67,7 +67,7 @@ func (u *Upload) Run(user *userModel.User) (*imageModel.Image, *errno.Errno) {
 		maxWidth = 1024
 	}
 
-	path, err := helpers.SaveImage(u.Image, u.Type+"s", strconv.Itoa(int(user.ID)), maxWidth)
+	path, err := handlers.SaveImage(u.Image, u.Type+"s", strconv.Itoa(int(user.ID)), maxWidth)
 	if err != nil {
 		return nil, errno.New(errno.UploadError, err)
 	}

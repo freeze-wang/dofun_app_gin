@@ -8,7 +8,6 @@ import (
 	"dofun/pkg/errno"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"strconv"
 	"time"
 
@@ -46,6 +45,7 @@ func (c *CustomClaims) SetExpiredAt() {
 	c.IssuedAt = now.Unix()
 	c.ExpiresAt = now.Add(jwtTokenExpiredTime).Unix()
 	c.RefreshTime = now.Add(jwtTokenRefreshTime).Unix()
+	//laravel 额外附带这个字段做校验,这里当作兼容
 	c.Prv = GetSHA1("App\\Models\\V1\\User\\User")
 }
 /*
@@ -118,7 +118,7 @@ func refresh(tokenString string) (string, CustomClaims, *errno.Errno) {
 	}
 
 	claims, ok := token.Claims.(*CustomClaims)
-	log.Printf("claims:%+v",claims)
+	//log.Printf("claims:%+v",claims)
 	if !ok {
 		return "", CustomClaims{}, errno.TokenError
 	}
@@ -130,7 +130,7 @@ func refresh(tokenString string) (string, CustomClaims, *errno.Errno) {
 	if err != nil {
 		return "", CustomClaims{}, errno.New(errno.TokenError, err)
 	}
-	log.Printf("newToken:%+v",newToken)
+	//log.Printf("newToken:%+v",newToken)
 	return newToken, newClaims, nil
 }
 

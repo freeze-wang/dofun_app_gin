@@ -22,8 +22,8 @@ type Topic struct {
 	TopicType string    `json:"topic_type" gorm:"column:topic_type;not null" binding:"required"`
 	IsDefault int       `json:"is_default" gorm:"column:is_default;" binding:"required"`
 	Status    int       `json:"status" gorm:"column:status;" binding:"required"`
-	CreatedAt models.Time `json:"created_at" gorm:"column:created_at;" binding:"required"`
-	UpdatedAt models.Time `json:"updated_at" gorm:"column:updated_at;" binding:"required"`
+	CreatedAt models.Time `json:"created_at" gorm:"column:created_at;" `
+	UpdatedAt models.Time `json:"updated_at" gorm:"column:updated_at;" `
 }
 
 // TableName 表名

@@ -1,9 +1,9 @@
 package middleware
 
 import (
-	"dofun/app/auth/token"
-	"dofun/app/helpers"
+	"dofun/app/handlers"
 	"dofun/app/http/controllers"
+	"dofun/app/http/controllers/auth/token"
 
 	"github.com/gin-gonic/gin"
 )
@@ -25,11 +25,11 @@ func TokenAuth() gin.HandlerFunc {
 			return
 		}
 
-		helpers.RecordLastActivedAt(currentUser)
+		handlers.RecordLastActivedAt(currentUser)
 		c.Next()
 	}
 }
-// TokenAuth token 验证
+//  TokenRefresh token 自动刷新,非强制登录
 func TokenRefresh() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		tokenStr, err := token.GetTokenFromRequest(c)

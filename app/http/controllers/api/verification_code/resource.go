@@ -2,7 +2,7 @@ package vericode
 
 import (
 	"dofun/app/cache"
-	"dofun/app/helpers"
+	"dofun/app/handlers"
 	"dofun/app/http/controllers"
 	vericode "dofun/app/http/requests/api/verification_code"
 	"dofun/pkg/constants"
@@ -38,7 +38,7 @@ func Store(c *gin.Context) {
 	// 发送短信
 	code := strconv.Itoa(utils.RandInt(1, 9999)) // 生成 4 位随机数，左侧补 0
 	code, _ = utils.LeftPad(code, 4, '0')
-	result := helpers.SendSms(phone, code)
+	result := handlers.SendSms(phone, code)
 	if result.Code == -1 {
 		controllers.SendErrorResponse(c, errno.New(errno.SmsError, result))
 		return

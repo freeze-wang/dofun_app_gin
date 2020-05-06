@@ -7,7 +7,6 @@ import (
 	"dofun/app/models/image"
 	"dofun/app/models/link"
 	"dofun/app/models/notification"
-	passwordreset "dofun/app/models/password_reset"
 	"dofun/app/models/permission"
 	"dofun/app/models/reply"
 	"dofun/app/models/topic"
@@ -34,7 +33,6 @@ func SetupDB(needMock bool) (*gorm.DB, error) {
 		&permission.RoleHasPermission{},
 
 		&user.User{},
-		&passwordreset.PasswordReset{},
 		&category.Category{},
 		&topic.Topic{},
 		&reply.Reply{},

@@ -1,9 +1,9 @@
 package middleware
 
 import (
-	"dofun/app/auth"
-	"dofun/app/helpers"
+	"dofun/app/handlers"
 	"dofun/app/http/controllers"
+	auth2 "dofun/app/http/controllers/auth"
 
 	"github.com/gin-gonic/gin"
 )
@@ -11,14 +11,14 @@ import (
 // Auth 用户已登录才能访问
 func Auth() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		currentUser, err := auth.GetCurrentUserFromContext(c)
+		currentUser, err := auth2.GetCurrentUserFromContext(c)
 		if currentUser == nil || err != nil {
 			controllers.RedirectRouter(c, "login")
 			c.Abort()
 			return
 		}
 
-		helpers.RecordLastActivedAt(currentUser)
+		handlers.RecordLastActivedAt(currentUser)
 		c.Next()
 	}
 }

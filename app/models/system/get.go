@@ -1,8 +1,8 @@
 package system
 
 import (
-	"dofun/app/auth/token"
 	"dofun/app/http/controllers"
+	"dofun/app/http/controllers/auth/token"
 	"dofun/app/models"
 	"dofun/app/models/dynamic"
 	"dofun/app/models/topic"

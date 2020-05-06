@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	auth2 "dofun/app/http/controllers/auth"
 	"dofun/config"
 	"dofun/pkg/ginutils/csrf"
 	ginfile "dofun/pkg/ginutils/file"
@@ -11,7 +12,6 @@ import (
 	"net/http"
 	"strconv"
 
-	"dofun/app/auth"
 	"dofun/app/viewmodels"
 
 	"github.com/flosch/pongo2"
@@ -54,7 +54,7 @@ func Render(c *gin.Context, tplPath string, data renderObj) {
 	// route class
 	obj["route_path"] = c.Request.URL.Path
 	// 获取当前登录的用户 (如果用户登录了的话，中间件中会通过 session 存储用户数据)
-	if user, err := auth.GetCurrentUserFromContext(c); err == nil {
+	if user, err := auth2.GetCurrentUserFromContext(c); err == nil {
 		obj[config.AppConfig.ContextCurrentUserDataKey] = viewmodels.NewUserViewModelSerializer(user)
 	}
 

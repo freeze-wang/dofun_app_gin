@@ -9,7 +9,6 @@ import (
 
 	// "dofun/app/controllers/page"
 	"dofun/app/http/controllers/auth/login"
-	"dofun/app/http/controllers/auth/password"
 	"dofun/app/http/controllers/auth/register"
 	"dofun/app/http/controllers/auth/verification"
 
@@ -39,18 +38,6 @@ func registerWeb(r *router.MyRoute, middlewares ...gin.HandlerFunc) {
 	// 注册
 	r.Register("POST", "register", "register", middleware.Guest(), register.Register)
 
-	// +++++++++++++++ 密码重置相关路由 +++++++++++++++
-	pwdRouter := r.Group("/password", middleware.Guest())
-	{
-		// 展示发送重置密码链接 email 的页面
-		pwdRouter.Register("GET", "password.request", "/reset", password.ShowLinkRequestForm)
-		// 发送重置密码链接的 email
-		pwdRouter.Register("POST", "password.email", "/email", password.SendResetLinkEmail)
-		// 展示重置密码的页面
-		pwdRouter.Register("GET", "password.reset", "/reset/:token", password.ShowResetForm)
-		// 重置密码
-		pwdRouter.Register("POST", "password.update", "/reset", password.Reset)
-	}
 
 	// +++++++++++++++ Email 认证相关路由 +++++++++++++++
 	verificationRouter := r.Group("/email", middleware.Auth())
