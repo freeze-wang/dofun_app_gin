@@ -7,9 +7,12 @@ import (
 	"dofun/bootstrap"
 	"dofun/config"
 	"dofun/database"
+	"github.com/gin-contrib/pprof"
+	_ "github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/pflag"
 )
+
 var (
 	// 需要 mock data，注意该操作会覆盖数据库；只在非 release 时生效
 	needMock = pflag.BoolP("mock", "m", false, "need mock data")
@@ -19,6 +22,7 @@ func main() {
 	// 初始化配置
 	config.InitConfig("", true)
 	r := setupRouter()
+	pprof.Register(r)	 // 性能监控
 	r.Run() // 监听并在 0.0.0.0:8080 上启动服务
 }
 
@@ -32,9 +36,12 @@ func setupRouter() *gin.Engine {
 			c.String(200, "pong")
 		})
 	}*/
-	v1 := r.Group("api/v1/").Use(middleware.TokenRefresh())
+	vt := r.Group("api/v1/").Use(middleware.TokenRefresh())
 	{
-		v1.GET("index/dynamic/:id", dynamic.Index)
+		vt.GET("index/dynamic/:id", dynamic.Index)
+	}
+	v1 := r.Group("api/v1/")
+	{
 		v1.GET("dynamic/detail/:id", dynamic.Detail)
 	}
 	r.POST("/login", authorization.Store)

@@ -34,9 +34,7 @@ func ParseAndGetUser(c *gin.Context, token string) (*userModel.User, *errno.Errn
 		token, claimsInstance, _ = refresh(token)
 		claims = &claimsInstance
 		c.Header("token", token)
-	}
-
-	if err != nil {
+	} else if err != nil {
 		return nil, err
 	}
 
@@ -83,6 +81,7 @@ func User(c *gin.Context) *userModel.User {
 	}
 	return u
 }
+
 // ---------------- private
 func getTokenFromHeader(c *gin.Context) (string, bool) {
 	header := c.Request.Header.Get(tokenHeaderKeyName)
