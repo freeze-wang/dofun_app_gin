@@ -52,3 +52,13 @@ WEIXIN:
 JPUSH:
   KEY:
   SECRET:
+
+# 电竞
+DJ:
+  DF_DJ_DOMAIN_URL: "http://www.test.daofengdj.com"
+  DF_DJ_API_PUBLIC_BUSINESS_ID: 516fb6fa261c3d853c1b2e0a737c32d1
+
+#租号玩
+ZHW:
+  DF_APP_ZHW_DOMAIN_URL: "http://www1.zuhaowan.com:98"
+  DF_APP_ZHW_API_SECRET: 85*&^d2B64C

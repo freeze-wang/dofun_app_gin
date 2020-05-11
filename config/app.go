@@ -51,6 +51,14 @@ type appConfig struct {
 	// 极光推送
 	JPushKey    string
 	JPushSecret string
+
+	//刀锋电竞
+	DfDjDomainUrl           string
+	DfDjApiPublicBusinessId string
+
+	//app-租号玩
+	DfAppZhwDomainUrl string
+	DfAppZhwApiSecret string
 }
 
 func newAppConfig() *appConfig {
@@ -90,5 +98,10 @@ func newAppConfig() *appConfig {
 
 		JPushKey:    viper.GetString("JPUSH.KEY"),
 		JPushSecret: viper.GetString("JPUSH.SECRET"),
+
+		DfDjDomainUrl:           viper.GetString("DJ.DF_DJ_DOMAIN_URL"),
+		DfDjApiPublicBusinessId: viper.GetString("DJ.DF_DJ_API_PUBLIC_BUSINESS_ID"),
+		DfAppZhwDomainUrl:       viper.GetString("ZHW.DF_APP_ZHW_DOMAIN_URL"),
+		DfAppZhwApiSecret:       viper.GetString("ZHW.DF_APP_ZHW_API_SECRET"),
 	}
 }
