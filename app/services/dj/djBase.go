@@ -6,6 +6,7 @@ import (
 	"crypto/x509"
 	"dofun/config"
 	"dofun/pkg/errno"
+	"dofun/pkg/gredis"
 	"encoding/json"
 	"encoding/pem"
 	"errors"
@@ -21,7 +22,7 @@ type responseBody struct {
 }
 
 const (
-	djPublicKey = "dj:other:publickey"
+	djPublicKey = "pw:other:publickey"
 )
 
 // 加密
@@ -52,16 +53,21 @@ func decrypt(privateKey []byte, ciphertext []byte) ([]byte, error) {
 }
 
 //获取公钥
-func getPublicKey() string {
+func getPublicKey() ([]byte, error) {
+	publicKey, err := gredis.Get(djPublicKey)
+	if err != nil && publicKey != nil {
+		return publicKey, nil
+	}
 	reqUrl := config.AppConfig.DfDjDomainUrl + "/business/api/getKey.html"
 	rep, err := djCurlToData("GET", reqUrl, "business_id="+config.AppConfig.DfDjApiPublicBusinessId)
 	if err != nil {
-
+		return nil, err
 	}
-	if value, ok := rep.Data.(string); ok {
-		return value
+	if value, ok := rep.Data.([]byte); ok {
+		gredis.Set(djPublicKey, value, -1)
+		return value, nil
 	}
-	return ""
+	return nil, errno.Base(errno.InternalServerError, "系统异常!")
 }
 
 //发起请求

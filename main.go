@@ -3,10 +3,12 @@ package main
 import (
 	"dofun/app/http/controllers/api/authorization"
 	"dofun/app/http/controllers/api/dynamic"
+	"dofun/app/http/controllers/api/pw"
 	"dofun/app/http/middleware"
 	"dofun/bootstrap"
 	"dofun/config"
 	"dofun/database"
+	"dofun/pkg/gredis"
 	"github.com/gin-contrib/pprof"
 	_ "github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"
@@ -21,6 +23,7 @@ var (
 func main() {
 	// 初始化配置
 	config.InitConfig("", true)
+	gredis.InitRedis()
 	r := setupRouter()
 	pprof.Register(r)	 // 性能监控
 	r.Run() // 监听并在 0.0.0.0:8080 上启动服务
@@ -43,8 +46,10 @@ func setupRouter() *gin.Engine {
 	v1 := r.Group("api/v1/")
 	{
 		v1.GET("dynamic/detail/:id", dynamic.Detail)
+		vt.GET("pw/list", pw.List)
 	}
 	r.POST("/login", authorization.Store)
+
 
 	/*server := endless.NewServer(config.AppConfig.Addr, r)
 	server.BeforeBegin = func(add string) {

@@ -2,6 +2,7 @@ package config
 
 import (
 	"github.com/spf13/viper"
+	"time"
 )
 
 // 应用程序配置
@@ -59,6 +60,13 @@ type appConfig struct {
 	//app-租号玩
 	DfAppZhwDomainUrl string
 	DfAppZhwApiSecret string
+
+	//redis
+	RedisHost        string
+	RedisPassword    string
+	RedisMaxidle     int
+	RedisMaxActive   int
+	RedisIdleTimeout time.Duration
 }
 
 func newAppConfig() *appConfig {
@@ -103,5 +111,11 @@ func newAppConfig() *appConfig {
 		DfDjApiPublicBusinessId: viper.GetString("DJ.DF_DJ_API_PUBLIC_BUSINESS_ID"),
 		DfAppZhwDomainUrl:       viper.GetString("ZHW.DF_APP_ZHW_DOMAIN_URL"),
 		DfAppZhwApiSecret:       viper.GetString("ZHW.DF_APP_ZHW_API_SECRET"),
+
+		RedisHost:       viper.GetString("REDIS.RedisHost"),
+		RedisPassword:       viper.GetString("REDIS.RedisPassword"),
+		RedisMaxidle:       viper.GetInt("REDIS.RedisMaxidle"),
+		RedisMaxActive:       viper.GetInt("REDIS.RedisMaxActive"),
+		RedisIdleTimeout:       viper.GetDuration("REDIS.RedisIdleTimeout"),
 	}
 }

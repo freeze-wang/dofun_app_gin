@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/spf13/viper"
 )
@@ -19,6 +20,16 @@ type dbConfig struct {
 
 	Debug bool
 }
+
+type Redis struct {
+	RedisHost         string
+	RedisPassword     string
+	RedisMaxidle      int
+	RedisMaxActive   int
+	RedisIdleTimeout time.Duration
+}
+var RedisSetting = &Redis{}
+
 
 func newDBConfig() *dbConfig {
 	// 默认配置

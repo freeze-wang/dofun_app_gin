@@ -62,3 +62,11 @@ DJ:
 ZHW:
   DF_APP_ZHW_DOMAIN_URL: "http://www1.zuhaowan.com:98"
   DF_APP_ZHW_API_SECRET: 85*&^d2B64C
+
+#REDIS
+REDIS:
+  RedisHost: "127.0.0.1:6379"
+  RedisPassword:
+  RedisMaxidle: 30
+  RedisMaxActive: 30
+  RedisIdleTimeout: 200
