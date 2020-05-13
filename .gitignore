@@ -28,11 +28,10 @@ config.yaml
 /taro-app/dist
 /taro-app/.temp
 /gin_bbs
-pkg/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
+dofun
 # Miscellaneous
 *.class
 *.log

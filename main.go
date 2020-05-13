@@ -23,7 +23,6 @@ var (
 func main() {
 	// 初始化配置
 	config.InitConfig("", true)
-	gredis.InitRedis()
 	r := setupRouter()
 	pprof.Register(r)	 // 性能监控
 	r.Run() // 监听并在 0.0.0.0:8080 上启动服务
@@ -33,6 +32,7 @@ func setupRouter() *gin.Engine {
 	r := gin.Default()
 	bootstrap.SetupGin(r)
 	database.InitDB()
+	gredis.InitRedis()
 	/*r.Use(middleware.TokenAuth(),middleware.RateLimiter(1*time.Minute, 10))
 	{
 		r.GET("/ping", func(c *gin.Context) {
