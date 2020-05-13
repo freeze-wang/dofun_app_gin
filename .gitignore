@@ -22,13 +22,13 @@
 npm-debug.log
 yarn-error.log
 config.yaml
+*.yaml
 /public/uploads
 /vue-admin-app/node_modules
 /taro-app/node_modules
 /taro-app/dist
 /taro-app/.temp
 /gin_bbs
-pkg/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
