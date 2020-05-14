@@ -10,7 +10,6 @@ import (
 	"dofun/database"
 	"dofun/pkg/gredis"
 	"github.com/gin-contrib/pprof"
-	_ "github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/pflag"
 )

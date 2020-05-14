@@ -45,7 +45,11 @@ func InitConfig(c string, hasLog bool) {
 	if err := viper.ReadInConfig(); err != nil {
 		panic(fmt.Sprintf("读取配置文件失败，请检查 config.yaml 配置文件是否存在: %v", err))
 	}
-
+	configs := viper.AllSettings()
+	// 将default中的配置全部以默认配置写入
+	for k, v := range configs {
+		viper.SetDefault(k, v)
+	}
 	// 初始化日志
 	if hasLog {
 		initLog()
