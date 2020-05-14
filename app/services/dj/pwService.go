@@ -39,6 +39,7 @@ func PwList(classId string, attributeId string, sex string, orderBy string, page
 	if pkerr != nil {
 		return nil,pkerr
 	}
+
 	encryptStr, err := encrypt(publicKey, jsonBytes)
 	if err != nil {
 		return nil,err

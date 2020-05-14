@@ -147,3 +147,41 @@ func Brpop(key string) (string, error) {
 
 	return reply, nil
 }
+
+/**
+ * Get an item from the cache, or execute the given Closure and store the result.
+ *
+ * @param  string  $key
+ * @param  \DateTimeInterface|\DateInterval|float|int  $minutes
+ * @param  \Closure  $callback
+ * @return mixed
+ */
+func Remember(key string, time int, callback func() interface{}) ([]byte, error) {
+	conn := RedisConn.Get()
+	defer conn.Close()
+
+	reply, _ := redis.Bytes(conn.Do("GET", key))
+
+	if reply == nil {
+
+		data := callback()
+
+		switch data := data.(type) {
+		case string:
+			reply = []byte(data)
+		default:
+			reply, _ = json.Marshal(data)
+		}
+
+		_, err := conn.Do("SET", key, reply)
+		if err != nil {
+			return nil, err
+		}
+
+		_, err = conn.Do("EXPIRE", key, time)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return reply, nil
+}

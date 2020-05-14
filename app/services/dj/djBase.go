@@ -54,24 +54,25 @@ func decrypt(privateKey []byte, ciphertext []byte) ([]byte, error) {
 
 //获取公钥
 func getPublicKey() ([]byte, error) {
-	publicKey, err := gredis.Get(djPublicKey)
-	if err != nil && publicKey != nil {
-		return publicKey, nil
-	}
-	reqUrl := config.AppConfig.DfDjDomainUrl + "/business/api/getKey.html"
-	rep, err := djCurlToData("GET", reqUrl+"?business_id="+config.AppConfig.DfDjApiPublicBusinessId, "")
+	publicKey, err := gredis.Remember(djPublicKey, 10800, func() interface{} {
+		reqUrl := config.AppConfig.DfDjDomainUrl + "/business/api/getKey.html"
+		rep, err := djCurlToData(http.MethodGet, reqUrl+"?business_id="+config.AppConfig.DfDjApiPublicBusinessId, "")
+
+		if err != nil {
+			return nil
+		}
+		if value, ok := rep.Data.(map[string]interface{}); ok {
+			if pkey, ok := value["publicKey"].(string); ok {
+				return pkey
+			}
+		}
+		return nil
+	})
 	if err != nil {
-		return nil, err
+		return publicKey, err
 	}
 
-	if value, ok := rep.Data.(map[string]interface{}); ok {
-		gredis.Set(djPublicKey, value["publicKey"], -1)
-		if pbkey ,ok := value["publicKey"].(string);ok{
-			return []byte(pbkey), nil
-		}
-		return nil, errno.Base(errno.InternalServerError, "公钥解析异常!")
-	}
-	return nil, errno.Base(errno.InternalServerError, "获取公钥系统异常!")
+	return publicKey, nil
 }
 
 //发起请求
@@ -99,7 +100,7 @@ func djCurlToData(method string, reqUrl string, param string) (*responseBody, er
 		return nil, errno.Base(errno.InternalServerError, "数据异常")
 	}
 	var result responseBody
-	if err := json.Unmarshal([]byte(jsonBody), &result); err != nil {
+	if err := json.Unmarshal(jsonBody, &result); err != nil {
 		return nil, errno.Base(errno.InternalServerError, "数据异常")
 	}
 	return &result, nil
