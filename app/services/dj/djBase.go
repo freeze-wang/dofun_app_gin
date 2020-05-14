@@ -59,15 +59,19 @@ func getPublicKey() ([]byte, error) {
 		return publicKey, nil
 	}
 	reqUrl := config.AppConfig.DfDjDomainUrl + "/business/api/getKey.html"
-	rep, err := djCurlToData("GET", reqUrl, "business_id="+config.AppConfig.DfDjApiPublicBusinessId)
+	rep, err := djCurlToData("GET", reqUrl+"?business_id="+config.AppConfig.DfDjApiPublicBusinessId, "")
 	if err != nil {
 		return nil, err
 	}
-	if value, ok := rep.Data.([]byte); ok {
-		gredis.Set(djPublicKey, value, -1)
-		return value, nil
+
+	if value, ok := rep.Data.(map[string]interface{}); ok {
+		gredis.Set(djPublicKey, value["publicKey"], -1)
+		if pbkey ,ok := value["publicKey"].(string);ok{
+			return []byte(pbkey), nil
+		}
+		return nil, errno.Base(errno.InternalServerError, "公钥解析异常!")
 	}
-	return nil, errno.Base(errno.InternalServerError, "系统异常!")
+	return nil, errno.Base(errno.InternalServerError, "获取公钥系统异常!")
 }
 
 //发起请求

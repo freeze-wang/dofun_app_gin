@@ -3,7 +3,6 @@ package dj
 import (
 	"dofun/config"
 	"encoding/json"
-	"log"
 	"net/url"
 )
 
@@ -21,7 +20,8 @@ type listParam struct {
 	PageSize    int    `json:"pageSize"`
 }
 
-func PwList(classId string, attributeId string, sex string, orderBy string, page int, pageSize int) interface{} {
+func PwList(classId string, attributeId string, sex string, orderBy string, page int, pageSize int) (interface{},error) {
+
 	requestParam := make(url.Values)
 	param := listParam{
 		ClassId:     classId,
@@ -33,17 +33,21 @@ func PwList(classId string, attributeId string, sex string, orderBy string, page
 	}
 	jsonBytes, err := json.Marshal(param)
 	if err != nil {
-
+		return nil,err
 	}
-	publicKey, _ := getPublicKey()
-	encryptStr, _ := encrypt(publicKey, jsonBytes)
+	publicKey, pkerr := getPublicKey()
+	if pkerr != nil {
+		return nil,pkerr
+	}
+	encryptStr, err := encrypt(publicKey, jsonBytes)
+	if err != nil {
+		return nil,err
+	}
 	requestParam["d"] = []string{string(encryptStr)}
 	requestParam["business_id"] = []string{config.AppConfig.DfDjApiPublicBusinessId}
 
 	reqUrl := config.AppConfig.DfDjDomainUrl + "/business/api/pwList.html"
 	response, _ := djCurlToData("POST", reqUrl, requestParam.Encode())
 
-	log.Print(publicKey)
-	log.Print(response)
-	return response.Data
+	return response.Data,nil
 }
