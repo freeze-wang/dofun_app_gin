@@ -7,9 +7,12 @@ import (
 	"dofun/config"
 	"dofun/pkg/errno"
 	"dofun/pkg/gredis"
+	"encoding/base64"
 	"encoding/json"
 	"encoding/pem"
 	"errors"
+	"github.com/lexkong/log"
+	"github.com/lexkong/log/lager"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -36,7 +39,11 @@ func encrypt(publicKey []byte, data []byte) ([]byte, error) {
 		return nil, err
 	}
 	pub := pubInterface.(*rsa.PublicKey)
-	return rsa.EncryptPKCS1v15(rand.Reader, pub, data)
+	encryptedData,err:= rsa.EncryptPKCS1v15(rand.Reader, pub, data)
+	if err!=nil {
+		return nil,err
+	}
+	return []byte(base64.StdEncoding.EncodeToString(encryptedData)), nil
 }
 
 // 解密
@@ -45,11 +52,14 @@ func decrypt(privateKey []byte, ciphertext []byte) ([]byte, error) {
 	if block == nil {
 		return nil, errors.New("private key error!")
 	}
+
+	encryptedDecodeBytes,err:=base64.StdEncoding.DecodeString(string(ciphertext))
 	priv, err := x509.ParsePKCS1PrivateKey(block.Bytes)
 	if err != nil {
 		return nil, err
 	}
-	return rsa.DecryptPKCS1v15(rand.Reader, priv, ciphertext)
+	decryptedData,err:= rsa.DecryptPKCS1v15(rand.Reader, priv, encryptedDecodeBytes)
+	return decryptedData, nil
 }
 
 //获取公钥
@@ -89,17 +99,30 @@ func djCurlToData(method string, reqUrl string, param string) (*responseBody, er
 	req.Header.Set("Cookie", "name=anny")
 
 	resp, _ := client.Do(req)
+
+	defer resp.Body.Close()
+
 	if resp == nil {
 		return nil, errno.Base(errno.InternalServerError, "请求参数错误")
 	}
-	defer resp.Body.Close()
 
 	jsonBody, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		// handle error
 		return nil, errno.Base(errno.InternalServerError, "数据异常")
 	}
-	var result responseBody
+
+	defer func(){
+		//if method == http.MethodPost {
+			log.Info("djCurlToData:", lager.Data{
+				"reqUrl": reqUrl,
+			//	"param":  param,
+				"resp":   string(jsonBody),
+			})
+		//}
+	}()
+
+	result := responseBody{}
 	if err := json.Unmarshal(jsonBody, &result); err != nil {
 		return nil, errno.Base(errno.InternalServerError, "数据异常")
 	}

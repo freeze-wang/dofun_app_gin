@@ -3,6 +3,7 @@ package dj
 import (
 	"dofun/config"
 	"encoding/json"
+	"net/http"
 	"net/url"
 )
 
@@ -44,11 +45,12 @@ func PwList(classId string, attributeId string, sex string, orderBy string, page
 	if err != nil {
 		return nil,err
 	}
+
 	requestParam["d"] = []string{string(encryptStr)}
 	requestParam["business_id"] = []string{config.AppConfig.DfDjApiPublicBusinessId}
 
 	reqUrl := config.AppConfig.DfDjDomainUrl + "/business/api/pwList.html"
-	response, _ := djCurlToData("POST", reqUrl, requestParam.Encode())
+	response, _ := djCurlToData(http.MethodGet, reqUrl+"?"+requestParam.Encode(),"")
 
 	return response.Data,nil
 }
