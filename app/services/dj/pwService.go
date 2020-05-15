@@ -41,12 +41,12 @@ func PwList(classId string, attributeId string, sex string, orderBy string, page
 		return nil,pkerr
 	}
 
-	encryptStr, err := encrypt(publicKey, jsonBytes)
+	encryptParams, err := encrypt(publicKey, jsonBytes)
 	if err != nil {
 		return nil,err
 	}
 
-	requestParam["d"] = []string{string(encryptStr)}
+	requestParam["d"] = []string{string(encryptParams)}
 	requestParam["business_id"] = []string{config.AppConfig.DfDjApiPublicBusinessId}
 
 	reqUrl := config.AppConfig.DfDjDomainUrl + "/business/api/pwList.html"
