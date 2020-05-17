@@ -16,6 +16,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strings"
+	"time"
 )
 
 type responseBody struct {
@@ -39,9 +40,9 @@ func encrypt(publicKey []byte, data []byte) ([]byte, error) {
 		return nil, err
 	}
 	pub := pubInterface.(*rsa.PublicKey)
-	encryptedData,err:= rsa.EncryptPKCS1v15(rand.Reader, pub, data)
-	if err!=nil {
-		return nil,err
+	encryptedData, err := rsa.EncryptPKCS1v15(rand.Reader, pub, data)
+	if err != nil {
+		return nil, err
 	}
 	return []byte(base64.StdEncoding.EncodeToString(encryptedData)), nil
 }
@@ -53,12 +54,12 @@ func decrypt(privateKey []byte, ciphertext []byte) ([]byte, error) {
 		return nil, errors.New("private key error!")
 	}
 
-	encryptedDecodeBytes,err:=base64.StdEncoding.DecodeString(string(ciphertext))
+	encryptedDecodeBytes, err := base64.StdEncoding.DecodeString(string(ciphertext))
 	priv, err := x509.ParsePKCS1PrivateKey(block.Bytes)
 	if err != nil {
 		return nil, err
 	}
-	decryptedData,err:= rsa.DecryptPKCS1v15(rand.Reader, priv, encryptedDecodeBytes)
+	decryptedData, err := rsa.DecryptPKCS1v15(rand.Reader, priv, encryptedDecodeBytes)
 	return decryptedData, nil
 }
 
@@ -87,44 +88,76 @@ func getPublicKey() ([]byte, error) {
 
 //发起请求
 func djCurlToData(method string, reqUrl string, param string) (*responseBody, error) {
-	client := &http.Client{}
+	responseData := make(chan *responseBody, 1)
+	responseErr := make(chan error, 1)
+	go func() {
+		defer func() {
+			if r := recover(); r != nil {
+				log.Errorf(errno.New(errno.InternalServerError, "系统异常recover:"), "捕获到的错误：%s\n", r)
+			}
+		}()
+		client := &http.Client{
+			Transport: &http.Transport{
+				ResponseHeaderTimeout: time.Second * 2,
+			},
+			Timeout: time.Second * 5,
+		}
 
-	req, err := http.NewRequest(method, reqUrl, strings.NewReader(param))
-	if err != nil {
-		// handle error
-		return nil, errno.Base(errno.InternalServerError, "请求参数错误")
-	}
+		req, err := http.NewRequest(method, reqUrl, strings.NewReader(param))
+		if err != nil {
+			// handle error
+			responseData <- nil
+			responseErr <- errno.New(errno.InternalServerError, "请求参数错误")
+			return
+		}
 
-	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-	req.Header.Set("Cookie", "name=anny")
+		req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+		//req.Header.Set("Cookie", "name=anny")
 
-	resp, _ := client.Do(req)
+		resp, err := client.Do(req)
 
-	defer resp.Body.Close()
+		defer func() {
+			if resp != nil {
+				resp.Body.Close()
+			}
+		}()
 
-	if resp == nil {
-		return nil, errno.Base(errno.InternalServerError, "请求参数错误")
-	}
+		if resp == nil {
+			responseData <- nil
+			if strings.Contains(err.Error(), "Client.Timeout exceeded") {
+				responseErr <- errno.New(errno.InternalServerError, "请求超时")
+			}else {
+				responseErr <- errno.New(errno.InternalServerError, "获取数据异常")
+			}
+			return
+		}
 
-	jsonBody, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		// handle error
-		return nil, errno.Base(errno.InternalServerError, "数据异常")
-	}
+		jsonBody, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			// handle error
+			responseData <- nil
+			responseErr <- errno.New(errno.InternalServerError, "数据异常")
+			return
+		}
 
-	defer func(){
-		//if method == http.MethodPost {
-			log.Info("djCurlToData:", lager.Data{
+		defer func() {
+			//if method == http.MethodPost {
+			go log.Info("djCurlToData:", lager.Data{
 				"reqUrl": reqUrl,
-			//	"param":  param,
 				"resp":   string(jsonBody),
 			})
-		//}
+			//}
+		}()
+
+		var result responseBody
+		if err := json.Unmarshal(jsonBody, &result); err != nil {
+			responseData <- nil
+			responseErr <- errno.New(errno.InternalServerError, "数据异常")
+			return
+		}
+		responseData <- &result
+		responseErr <- nil
 	}()
 
-	result := responseBody{}
-	if err := json.Unmarshal(jsonBody, &result); err != nil {
-		return nil, errno.Base(errno.InternalServerError, "数据异常")
-	}
-	return &result, nil
+	return <-responseData, <-responseErr
 }

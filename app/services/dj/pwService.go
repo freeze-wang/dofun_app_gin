@@ -50,7 +50,9 @@ func PwList(classId string, attributeId string, sex string, orderBy string, page
 	requestParam["business_id"] = []string{config.AppConfig.DfDjApiPublicBusinessId}
 
 	reqUrl := config.AppConfig.DfDjDomainUrl + "/business/api/pwList.html"
-	response, _ := djCurlToData(http.MethodGet, reqUrl+"?"+requestParam.Encode(),"")
-
+	response, err := djCurlToData(http.MethodGet, reqUrl+"?"+requestParam.Encode(),"")
+	if err != nil {
+		return nil,err
+	}
 	return response.Data,nil
 }
