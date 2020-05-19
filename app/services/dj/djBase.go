@@ -122,7 +122,7 @@ func djCurlToData(method string, reqUrl string, param string) (*responseBody, er
 			}
 		}()
 
-		if resp == nil {
+		if err != nil {
 			responseData <- nil
 			if strings.Contains(err.Error(), "Client.Timeout exceeded") {
 				responseErr <- errno.New(errno.InternalServerError, "请求超时")

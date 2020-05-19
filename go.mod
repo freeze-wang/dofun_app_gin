@@ -18,6 +18,7 @@ require (
 	github.com/gin-gonic/gin v1.6.2
 	github.com/go-siris/siris v7.4.0+incompatible // indirect
 	github.com/go-sql-driver/mysql v1.4.1
+	github.com/golang/protobuf v1.3.3
 	github.com/gomodule/redigo v1.8.1
 	github.com/gorilla/context v1.1.1 // indirect
 	github.com/gorilla/sessions v1.2.0 // indirect
@@ -43,6 +44,7 @@ require (
 	github.com/yunpian/yunpian-go-sdk v0.0.0-20171206021512-2193bf8a7459
 	golang.org/x/crypto v0.0.0-20191205180655-e7c4368fe9dd
 	golang.org/x/time v0.0.0-20190308202827-9d24e82272b4
+	google.golang.org/grpc v1.21.0
 	gopkg.in/alexcesaro/quotedprintable.v3 v3.0.0-20150716171945-2caba252f4dc // indirect
 	gopkg.in/gomail.v2 v2.0.0-20160411212932-81ebce5c23df
 )

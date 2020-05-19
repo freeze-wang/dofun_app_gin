@@ -1,8 +1,6 @@
 package controllers
 
 import (
-	"net/http"
-
 	"dofun/pkg/errno"
 	"dofun/pkg/ginutils/pagination"
 
@@ -61,7 +59,7 @@ func SendResponse(c *gin.Context, err error, data interface{}) {
 		r.Status = StatusSuccess
 	}
 
-	c.JSON(http.StatusOK, r)
+	c.JSON(code, r)
 }
 
 // SendOKResponse 成功响应

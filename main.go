@@ -23,8 +23,8 @@ func main() {
 	// 初始化配置
 	config.InitConfig("", true)
 	r := setupRouter()
-	pprof.Register(r)	 // 性能监控
-	r.Run() // 监听并在 0.0.0.0:8080 上启动服务
+	pprof.Register(r) // 性能监控
+	r.Run()           // 监听并在 0.0.0.0:8080 上启动服务
 }
 
 func setupRouter() *gin.Engine {
@@ -38,17 +38,19 @@ func setupRouter() *gin.Engine {
 			c.String(200, "pong")
 		})
 	}*/
-	vt := r.Group("api/v1/").Use(middleware.TokenRefresh())
+	vapi := r.Group("api/v1/")
 	{
-		vt.GET("index/dynamic/:id", dynamic.Index)
+		vtoken := vapi.Group("").Use(middleware.TokenRefresh())
+		vtoken.GET("index/dynamic/:id", dynamic.Index)
+		vapi.GET("pw/list", pw.List)
 	}
+
 	v1 := r.Group("api/v1/")
 	{
 		v1.GET("dynamic/detail/:id", dynamic.Detail)
-		vt.GET("pw/list", pw.List)
+
 	}
 	r.POST("/login", authorization.Store)
-
 
 	/*server := endless.NewServer(config.AppConfig.Addr, r)
 	server.BeforeBegin = func(add string) {

@@ -2,6 +2,7 @@ package gredis
 
 import (
 	"dofun/config"
+	"dofun/pkg/errno"
 	"encoding/json"
 	"time"
 
@@ -91,6 +92,18 @@ func Get(key string) ([]byte, error) {
 	return reply, nil
 }
 
+// Get hgetall a key
+func HGetAll(key string) (map[string]string, error) {
+	conn := RedisConn.Get()
+	defer conn.Close()
+
+	reply, err := redis.StringMap(conn.Do("hGetAll", key))
+	if err != nil {
+		return nil, err
+	}
+
+	return reply, nil
+}
 // Delete delete a kye
 func Delete(key string) (bool, error) {
 	conn := RedisConn.Get()
@@ -165,7 +178,9 @@ func Remember(key string, time int, callback func() interface{}) ([]byte, error)
 	if reply == nil {
 
 		data := callback()
-
+		if data == nil {
+			return nil, errno.New(errno.InternalServerError, "获取失败!")
+		}
 		switch data := data.(type) {
 		case string:
 			reply = []byte(data)
