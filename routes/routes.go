@@ -37,7 +37,7 @@ func Register(g *gin.Engine) *gin.Engine {
 	// ---------------------------------- 注册全局中间件 ----------------------------------
 	g.Use(gin.Recovery())
 	//if config.AppConfig.RunMode != config.RunmodeRelease {
-		g.Use(gin.Logger())
+	g.Use(gin.Logger())
 	//}
 	g.Use(last.LastMiddleware()) // 记录上一次请求信息
 

@@ -8,9 +8,9 @@
 package chat_server
 
 import (
+	"dofun/app/models/chat"
 	"dofun/pkg/gredis"
 	"fmt"
-	"dofun/app/models/chat"
 	"strconv"
 )
 

@@ -1,8 +1,8 @@
 package chat
 
 import (
-	"dofun/app/cache/chat_server"
 	"dofun/app/http/controllers"
+	"dofun/app/services/chat_server"
 	"dofun/app/services/grpcclient"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -11,7 +11,7 @@ import (
 )
 
 // Index topic list
-func send(c *gin.Context) {
+func Send(c *gin.Context) {
 
 	// 获取参数
 	appId,_ := strconv.Atoi(c.Param("appId"))
@@ -28,7 +28,7 @@ func send(c *gin.Context) {
 		}
 
 		for _, server := range servers {
-			grpcclient.SendMsgAll(server, msgId, uint32(appId), userId, "msg", message)
+			_, _ = grpcclient.SendMsgAll(server, msgId, uint32(appId), userId, "msg", message)
 		}
 	}()
 

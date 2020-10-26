@@ -2,6 +2,7 @@ package main
 
 import (
 	"dofun/app/http/controllers/api/authorization"
+	"dofun/app/http/controllers/api/chat"
 	"dofun/app/http/controllers/api/dynamic"
 	"dofun/app/http/controllers/api/pw"
 	"dofun/app/http/middleware"
@@ -24,7 +25,7 @@ func main() {
 	config.InitConfig("", true)
 	r := setupRouter()
 	pprof.Register(r) // 性能监控
-	r.Run()           // 监听并在 0.0.0.0:8080 上启动服务
+	r.Run(":8081")           // 监听并在 0.0.0.0:8080 上启动服务
 }
 
 func setupRouter() *gin.Engine {
@@ -38,18 +39,14 @@ func setupRouter() *gin.Engine {
 			c.String(200, "pong")
 		})
 	}*/
-	vapi := r.Group("api/v1/")
-	{
-		vtoken := vapi.Group("").Use(middleware.TokenRefresh())
-		vtoken.GET("index/dynamic/:id", dynamic.Index)
-		vapi.GET("pw/list", pw.List)
-	}
-
 	v1 := r.Group("api/v1/")
 	{
+		v1.GET("index/dynamic/:id", middleware.TokenRefresh(), dynamic.Index)
+		v1.GET("pw/list", pw.List)
 		v1.GET("dynamic/detail/:id", dynamic.Detail)
-
+		v1.POST("user/sendMessageAll", chat.Send)
 	}
+
 	r.POST("/login", authorization.Store)
 
 	/*server := endless.NewServer(config.AppConfig.Addr, r)
